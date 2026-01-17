@@ -1,0 +1,13 @@
+{
+  "page_url": "...",
+  "elements": [
+    {
+      "tag": "button",
+      "text": "Sign In",
+      "dom_path": "form > button"
+    }
+  ],
+  "dependencies": {
+    "typescript": "^5.9.3"
+  }
+}
