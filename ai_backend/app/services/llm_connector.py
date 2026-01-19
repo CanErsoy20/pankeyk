@@ -8,14 +8,18 @@ logger = logging.getLogger(__name__)
 
 MOCK_AI = True
 
-def translate_ui_elements(elements_list, target_language="it"):
+def translate_ui_elements(elements_list, target_language="it", page_url=None):
     """
     Takes a list of UI elements (dicts with id, text, context) and returns 
     the list with a new 'translated_text' field added.
     """
 
     if MOCK_AI:
-        return get_mock_translation(elements_list, target_language)
+            return get_mock_translation(
+                elements_list,
+                target_language,
+                page_url=page_url
+            )
     
     gui_translation_schema = {
         "name": "gui_translation",

@@ -1,6 +1,11 @@
 (() => {
     const TARGET_LANGUAGE = "it";
-    const CACHE_KEY = "pankeyk_translation_cache";
+    const PAGE_KEY = `${location.hostname}${location.pathname}`;
+    const CACHE_KEY = `pankeyk_translation_cache::${TARGET_LANGUAGE}::${PAGE_KEY}`;
+
+    let initialized = false;
+    let requestInFlight = false;
+    let resizeInProgress = false;
 
     /* =========================
        Utilities
@@ -15,7 +20,7 @@
         );
     }
 
-    function hashText(text) {
+    function stableHash(text) {
         let hash = 0;
         for (let i = 0; i < text.length; i++) {
             hash = (hash << 5) - hash + text.charCodeAt(i);
@@ -38,7 +43,7 @@
     }
 
     /* =========================
-       DOM Scan
+       DOM Scan (STABLE IDs)
     ========================== */
 
     function scanDOM() {
@@ -56,11 +61,15 @@
             const parent = node.parentElement;
             if (!parent || !isVisible(parent)) continue;
 
-            const id = `text_${hashText(text)}`;
+            // 🔒 Stable ID stored ONCE on node
+            if (!node.__pankeykId) {
+                node.__pankeykId = `text_${stableHash(text)}`;
+                node.__pankeykOriginalText = text;
+            }
 
             results.push({
-                id,
-                text,
+                id: node.__pankeykId,
+                text: node.__pankeykOriginalText,
                 context: getContext(parent.tagName.toLowerCase()),
                 node
             });
@@ -112,42 +121,55 @@
     ========================== */
 
     async function runTranslation() {
+        if (requestInFlight || resizeInProgress) return;
+
         const elements = scanDOM();
         const cache = loadCache();
 
-        // 1. Apply cached translations immediately
+        // Apply cache immediately
         applyTranslations(elements, cache);
 
-        // 2. Find untranslated elements
         const missing = elements.filter(el => !cache[el.id]);
-        if (missing.length === 0) return;
+        if (missing.length === 0) {
+            initialized = true;
+            return;
+        }
 
-        const payload = {
-            target_language: TARGET_LANGUAGE,
-            elements: missing.map(el => ({
-                id: el.id,
-                text: el.text,
-                context: el.context
-            }))
-        };
+        requestInFlight = true;
 
-        const response = await sendToBackend(payload);
+        try {
+            const payload = {
+                target_language: TARGET_LANGUAGE,
+                page_url: window.location.href,
+                elements: missing.map(el => ({
+                    id: el.id,
+                    text: el.text,
+                    context: el.context
+                }))
+            };
 
-        response.elements.forEach(el => {
-            cache[el.id] = el.translated_text;
-        });
+            const response = await sendToBackend(payload);
 
-        saveCache(cache);
-        applyTranslations(elements, cache);
+            response.elements.forEach(el => {
+                cache[el.id] = el.translated_text;
+            });
+
+            saveCache(cache);
+            applyTranslations(elements, cache);
+        } finally {
+            requestInFlight = false;
+            initialized = true;
+        }
     }
 
     /* =========================
-       Mutation Watcher (debounced)
+       Mutation Watcher
     ========================== */
 
     let debounce = null;
 
     const observer = new MutationObserver(() => {
+        if (!initialized || resizeInProgress) return;
         clearTimeout(debounce);
         debounce = setTimeout(runTranslation, 300);
     });
@@ -155,6 +177,20 @@
     observer.observe(document.body, {
         childList: true,
         subtree: true
+    });
+
+    /* =========================
+       Resize Guard
+    ========================== */
+
+    let resizeTimeout = null;
+
+    window.addEventListener("resize", () => {
+        resizeInProgress = true;
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            resizeInProgress = false;
+        }, 500);
     });
 
     // Initial run
