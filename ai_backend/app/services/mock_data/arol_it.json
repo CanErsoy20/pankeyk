@@ -2,303 +2,309 @@
   "elements": [
     {
       "context": "link",
-      "id": "text_0_en",
+      "id": "text_8a9",
       "text": "EN",
       "translated_text": "Inglese"
     },
     {
       "context": "link",
-      "id": "text_1_it",
+      "id": "text_92b",
       "text": "IT",
       "translated_text": "Italiano"
     },
     {
       "context": "link",
-      "id": "text_2_fr",
+      "id": "text_8cc",
       "text": "FR",
       "translated_text": "Francese"
     },
     {
       "context": "link",
-      "id": "text_3_es",
+      "id": "text_8ae",
       "text": "ES",
       "translated_text": "Spagnolo"
     },
     {
       "context": "paragraph",
-      "id": "text_4_tappatrici_pers",
-      "text": "TAPPATRICI PERSONALIZZATE PER QUALSIASI ESIGENZA DI CHIUSURA",
-      "translated_text": "Tappatrici personalizzate per qualsiasi esigenza di chiusura"
+      "id": "text_6ff889f8",
+      "text": "Your browser does not support the video tag.",
+      "translated_text": "Il tuo browser non supporta il tag video."
     },
     {
       "context": "paragraph",
-      "id": "text_5_oltre_700_tappa",
-      "text": "Oltre 700 tappatrici consegnate ogni anno e oltre 25.000 installate in una vasta gamma di settori, da 1.000 a 100.000 BPH, fanno di AROL il pi\u00f9 grande specialista di soluzioni personalizzate per qualsiasi esigenza di tappatura.",
-      "translated_text": "Oltre 700 tappatrici consegnate ogni anno e oltre 25.000 installate in una vasta gamma di settori, da 1.000 a 100.000 BPH, fanno di AROL il pi\u00f9 grande specialista di soluzioni personalizzate per qualsiasi esigenza di tappatura."
+      "id": "text_2f47ba18",
+      "text": "CUSTOMISED CAPPING MACHINES FOR ANY CLOSURE NEED",
+      "translated_text": "MACCHINE DI CAPPATURE PERSONALIZZATE PER QUALSIASI ESIGENZA DI CHIUSURA"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_34bfafa3",
+      "text": "700+ capping machines delivered every year and 25.000+ installed all over the world in a vast variety of industries, from 1.000 to 100.000 bph,",
+      "translated_text": "700+ macchine di cappature consegnate ogni anno e 25.000+ installate in tutto il mondo in una vasta gamma di industrie, dalle 1.000 alle 100.000 bph."
+    },
+    {
+      "context": "paragraph",
+      "id": "text_a681de0",
+      "text": "make of arol the largest specialist of customized solutions to any capping need.",
+      "translated_text": "AROL \u00e8 la pi\u00f9 grande specialista di soluzioni personalizzate per qualsiasi esigenza di cappature."
     },
     {
       "context": "heading",
-      "id": "text_6_trova_la_tappat",
-      "text": "TROVA LA TAPPATRICE PER IL TUO PRODOTTO",
-      "translated_text": "Trova la tappatrice per il tuo prodotto"
+      "id": "text_711fb1a5",
+      "text": "FIND THE CAPPING MACHINES FOR YOUR PRODUCT",
+      "translated_text": "TROVA LE MACCHINE DI CAPPATURE PER IL TUO PRODOTTO"
     },
     {
       "context": "link",
-      "id": "text_7_bevande",
-      "text": "Bevande",
-      "translated_text": "Bevande"
+      "id": "text_7228f87f",
+      "text": "beverage",
+      "translated_text": "bevanda"
     },
     {
       "context": "link",
-      "id": "text_8_birra",
-      "text": "Birra",
-      "translated_text": "Birra"
+      "id": "text_2e1430",
+      "text": "beer",
+      "translated_text": "birra"
     },
     {
       "context": "link",
-      "id": "text_9_acqua",
-      "text": "Acqua",
-      "translated_text": "Acqua"
+      "id": "text_6bac517",
+      "text": "water",
+      "translated_text": "acqua"
     },
     {
       "context": "link",
-      "id": "text_10_succhi",
-      "text": "Succhi",
-      "translated_text": "Succhi"
+      "id": "text_60c8160",
+      "text": "juice",
+      "translated_text": "succo"
     },
     {
       "context": "link",
-      "id": "text_11_alimenti",
-      "text": "Alimenti",
-      "translated_text": "Alimenti"
+      "id": "text_5aeded3",
+      "text": "dairy",
+      "translated_text": "lattiero-caseario"
     },
     {
       "context": "link",
-      "id": "text_12_latticini",
-      "text": "Latticini",
-      "translated_text": "Latticini"
+      "id": "text_300c5e",
+      "text": "food",
+      "translated_text": "alimenti"
     },
     {
       "context": "link",
-      "id": "text_13_olio_alimentare",
-      "text": "Olio alimentare",
-      "translated_text": "Olio alimentare"
+      "id": "text_1ae2095d",
+      "text": "edible oil",
+      "translated_text": "olio alimentare"
     },
     {
       "context": "link",
-      "id": "text_14_vino__liquori",
-      "text": "Vino & Liquori",
-      "translated_text": "Vino & Liquori"
+      "id": "text_11955aaf",
+      "text": "wine & spirits",
+      "translated_text": "vino e spiriti"
     },
     {
       "context": "link",
-      "id": "text_15_integratori_ali",
-      "text": "Integratori alimentari",
-      "translated_text": "Integratori alimentari"
+      "id": "text_3cc5a5e8",
+      "text": "food supplements",
+      "translated_text": "supplementi alimentari"
     },
     {
       "context": "link",
-      "id": "text_16_cura_della_pers",
-      "text": "CURA DELLA PERSONA",
-      "translated_text": "Cura della persona"
+      "id": "text_1f16a111",
+      "text": "personal Care",
+      "translated_text": "cura personale"
     },
     {
       "context": "link",
-      "id": "text_17_cura_della_casa",
-      "text": "Cura della casa",
-      "translated_text": "Cura della casa"
+      "id": "text_38f6d2b2",
+      "text": "household care",
+      "translated_text": "cura della casa"
     },
     {
       "context": "link",
-      "id": "text_18_prodotti_chimic",
-      "text": "prodotti chimici",
-      "translated_text": "Prodotti chimici"
+      "id": "text_28bce2a1",
+      "text": "chemicals",
+      "translated_text": "prodotti chimici"
     },
     {
       "context": "paragraph",
-      "id": "text_19_news",
+      "id": "text_2482d3",
       "text": "NEWS",
-      "translated_text": "Notizie"
+      "translated_text": "NEWS"
     },
     {
       "context": "link",
-      "id": "text_20_tappatrici_per_",
-      "text": "TAPPATRICI PER OLIO EDIBILE",
-      "translated_text": "Tappatrici per olio edibile"
+      "id": "text_1c68400e",
+      "text": "CAPPING MACHINES FOR EDIBLE OIL",
+      "translated_text": "MACCHINE DI CAPPATURE PER OLI ALIMENTARI"
     },
     {
       "context": "paragraph",
-      "id": "text_21_con_lavvio_del",
-      "text": "Con l\u2019avvio della stagione olearia, i produttori di tutto il Mediterraneo si preparano alla fase cruciale dell\u2019imbottigliamento: AROL li supporta con soluzioni di tappatura avanzate, garantendo qualit\u00e0, sicurezza e continuit\u00e0 produttiva.",
-      "translated_text": "Con l'avvio della stagione olearia, i produttori di tutto il Mediterraneo si preparano alla fase cruciale dell'imbottigliamento: AROL li supporta con soluzioni di tappatura avanzate, garantendo qualit\u00e0, sicurezza e continuit\u00e0 produttiva."
+      "id": "text_65fbecde",
+      "text": "With the start of the olive oil season, producers across the Mediterranean are preparing for the crucial bottling phase: AROL supports them with advanced capping solutions, ensuring quality, safety, and production continuity.",
+      "translated_text": "Con l'inizio della stagione dell'olio d'oliva, i produttori del Mediterraneo si preparano alla fase critica della bottigliatura: AROL li sostiene con soluzioni di cappature avanzate, assicurando qualit\u00e0, sicurezza e continuit\u00e0 di produzione."
     },
     {
       "context": "link",
-      "id": "text_22_leggi_tutto",
-      "text": "LEGGI TUTTO...",
-      "translated_text": "Leggi tutto..."
+      "id": "text_a437171",
+      "text": "Read more...",
+      "translated_text": "Leggi di pi\u00f9..."
     },
     {
       "context": "link",
-      "id": "text_23_arol_per_rain",
-      "text": "AROL PER RAIN",
-      "translated_text": "AROL per RAIN"
+      "id": "text_3c05e3cc",
+      "text": "AROL AT DRINKTEC 2025",
+      "translated_text": "AROL AL DRINKTEC 2025"
     },
     {
       "context": "paragraph",
-      "id": "text_24_rain_pure_mount",
-      "text": "Rain Pure Mountain Spring Water rinnova la sua linea di imbottigliamento con la tecnologia di tappatura AROL.",
-      "translated_text": "Rain Pure Mountain Spring Water rinnova la sua linea di imbottigliamento con la tecnologia di tappatura AROL."
+      "id": "text_14004d8b",
+      "text": "AROL at Drinktec: \"More\" than capping - a packaging ecosystem for the future of food & beverage.",
+      "translated_text": "AROL al Drinktec: \"Pi\u00f9\" che cappature - un ecosistema di imballaggio per il futuro degli alimenti e delle bevande."
     },
     {
       "context": "link",
-      "id": "text_25_leggi_tutto",
-      "text": "LEGGI TUTTO...",
-      "translated_text": "Leggi tutto..."
+      "id": "text_a437171",
+      "text": "Read more...",
+      "translated_text": "Leggi di pi\u00f9..."
     },
     {
       "context": "link",
-      "id": "text_26_nuova_tappatric",
-      "text": "NUOVA TAPPATRICE PER TOSER VINI",
-      "translated_text": "Nuova tappatrice per Toser Vini"
+      "id": "text_4f8f62bd",
+      "text": "AROL FOR RAIN",
+      "translated_text": "AROL PER LA PIoggia"
     },
     {
       "context": "paragraph",
-      "id": "text_27_toser_vini_sceg",
-      "text": "Toser Vini sceglie ancora le tappatrici AROL per la sua produzione di spumanti",
-      "translated_text": "Toser Vini sceglie ancora le tappatrici AROL per la sua produzione di spumanti"
+      "id": "text_328d1b5d",
+      "text": "Rain Pure Mountain Spring Water upgrades its bottling line with AROL capping technology.",
+      "translated_text": "Acqua Pura Montagna Spring Water aggiorna la sua linea di bottigliatura con tecnologia di cappature AROL."
     },
     {
       "context": "link",
-      "id": "text_28_leggi_tutto",
-      "text": "LEGGI TUTTO...",
-      "translated_text": "Leggi tutto..."
+      "id": "text_a437171",
+      "text": "Read more...",
+      "translated_text": "Leggi di pi\u00f9..."
     },
     {
       "context": "paragraph",
-      "id": "text_29_eventi",
-      "text": "Eventi",
+      "id": "text_7c6ccd39",
+      "text": "Events",
       "translated_text": "Eventi"
     },
     {
       "context": "link",
-      "id": "text_30_1502__17022",
+      "id": "text_23494d0d",
       "text": "15.02 - 17.02.2026",
       "translated_text": "15.02 - 17.02.2026"
     },
     {
       "context": "link",
-      "id": "text_31_rimini_italy",
+      "id": "text_27c404c1",
       "text": "RIMINI, ITALY",
-      "translated_text": "Rimini, Italia"
+      "translated_text": "RIMINI, ITALIA"
     },
     {
       "context": "link",
-      "id": "text_32_1003__12032",
+      "id": "text_71cb91bf",
       "text": "10.03 - 12.03.2026",
       "translated_text": "10.03 - 12.03.2026"
     },
     {
       "context": "link",
-      "id": "text_33_rennes_france",
+      "id": "text_35b644b0",
       "text": "RENNES, FRANCE",
-      "translated_text": "Rennes, Francia"
+      "translated_text": "RENNES, FRANCIA"
     },
     {
       "context": "link",
-      "id": "text_34_0705__13052",
+      "id": "text_41217642",
       "text": "07.05 \u2013 13.05.2026\nDUSSELDORF, GERMANY, EU",
-      "translated_text": "07.05 \u2013 13.05.2026\nD\u00fcsseldorf, Germania, UE"
+      "translated_text": "07.05 \u2013 13.05.2026\nDUSSELDORF, GERMANIA, UE"
     },
     {
       "context": "paragraph",
-      "id": "text_35_arol_spa__v",
+      "id": "text_12f94d2",
       "text": "AROL S.P.A. \u2013 VIALE ITALIA, 193 - 14053 CANELLI (ASTI) ITALIA - C.F. E P.IVA 03217610967 - REA\u00a0 AT 108104 - CAP. SOC. \u20ac 4.500.000 I.V.",
-      "translated_text": "AROL S.P.A. - Viale Italia, 193 - 14053 Canello (Asti) Italia - C.F. e P.IVA 03217610967 - REA AT 108104 - CAP. SOC. \u20ac 4.500.000 I.V."
+      "translated_text": "AROL S.P.A. \u2013 VIALE ITALIA, 193 - 14053 CANELLI (ASTI) ITALIA - C.F. E P.IVA 03217610967 - REA AT 108104 - CAP. SOC. \u20ac 4.500.000 I.V."
     },
     {
       "context": "paragraph",
-      "id": "text_36_member_of",
+      "id": "text_9e7bae3",
       "text": "MEMBER OF",
-      "translated_text": "Membro di"
+      "translated_text": "MEMBRO DI"
     },
     {
       "context": "link",
-      "id": "text_37_azienda",
-      "text": "AZIENDA",
-      "translated_text": "Azienda"
+      "id": "text_6372c85d",
+      "text": "COMPANY",
+      "translated_text": "azienda"
     },
     {
       "context": "link",
-      "id": "text_38_post_vendita",
-      "text": "POST VENDITA",
-      "translated_text": "Post-vendita"
+      "id": "text_383c2e13",
+      "text": "CUSTOMER CARE",
+      "translated_text": "CURA DEL CLIENTE"
     },
     {
       "context": "link",
-      "id": "text_39_lavora_con_noi",
-      "text": "LAVORA CON NOI",
-      "translated_text": "Lavora con noi"
+      "id": "text_48c469d7",
+      "text": "WORK WITH US",
+      "translated_text": "LAVORARE CON NOI"
     },
     {
       "context": "link",
-      "id": "text_40_termini__condi",
-      "text": "TERMINI & CONDIZIONI",
-      "translated_text": "Termini e condizioni"
+      "id": "text_370b450b",
+      "text": "TERMS & CONDITIONS",
+      "translated_text": "TERMINI E CONDIZIONI"
     },
     {
       "context": "link",
-      "id": "text_41_note_legali",
-      "text": "NOTE LEGALI",
-      "translated_text": "Note legali"
+      "id": "text_7a3cbe5a",
+      "text": "LEGAL NOTES",
+      "translated_text": "NOTE LEGALI"
     },
     {
       "context": "link",
-      "id": "text_42_codice_etico",
-      "text": "CODICE ETICO",
-      "translated_text": "Codice etico"
+      "id": "text_528b1daa",
+      "text": "CODE OF ETHICS",
+      "translated_text": "CODICE DI ETICA"
     },
     {
       "context": "link",
-      "id": "text_43_whistleblowing",
+      "id": "text_5b4fe0a2",
       "text": "WHISTLEBLOWING",
-      "translated_text": "Whistleblowing"
+      "translated_text": "DENUNCIA"
     },
     {
       "context": "link",
-      "id": "text_44_contatti",
-      "text": "CONTATTI",
-      "translated_text": "Contatti"
-    },
-    {
-      "context": "link",
-      "id": "text_45_privacy_policy",
+      "id": "text_4d62acea",
       "text": "PRIVACY POLICY",
-      "translated_text": "Politica sulla privacy"
+      "translated_text": "POLITICA SULLA PRIVACY"
     },
     {
       "context": "link",
-      "id": "text_46_cookie_policy",
+      "id": "text_3ecf3592",
       "text": "COOKIE POLICY",
-      "translated_text": "Politica sui cookie"
+      "translated_text": "POLITICA DEI COOKIE"
     },
     {
       "context": "paragraph",
-      "id": "text_47_modifica_prefer",
-      "text": "MODIFICA PREFERENZE COOKIE",
-      "translated_text": "Modifica le tue preferenze sui cookie"
+      "id": "text_1b6858e4",
+      "text": "COOKIE PREFERENCES",
+      "translated_text": "PREFERENZE DEI COOKIE"
     },
     {
       "context": "paragraph",
-      "id": "text_48_project_by",
+      "id": "text_5881e522",
       "text": "PROJECT BY",
-      "translated_text": "Progetto di"
+      "translated_text": "PROGETTO DI"
     },
     {
       "context": "link",
-      "id": "text_49_webimmagine",
+      "id": "text_454704fb",
       "text": "WEBIMMAGINE",
-      "translated_text": "Webimmagine"
+      "translated_text": "WEBIMMAGINE"
     }
   ],
   "target_language": "it"

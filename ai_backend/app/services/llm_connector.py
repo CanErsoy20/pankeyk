@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 MOCK_AI = True
 
-def translate_ui_elements(elements_list, target_language="Italian"):
+def translate_ui_elements(elements_list, target_language="it"):
     """
     Takes a list of UI elements (dicts with id, text, context) and returns 
     the list with a new 'translated_text' field added.
@@ -17,6 +17,31 @@ def translate_ui_elements(elements_list, target_language="Italian"):
     if MOCK_AI:
         return get_mock_translation(elements_list, target_language)
     
+    gui_translation_schema = {
+        "name": "gui_translation",
+        "strict": True,
+        "schema": {
+            "type": "object",
+            "properties": {
+                "elements": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": { "type": "string" },
+                            "translated_text": { "type": "string" }
+                        },
+                        "required": ["id", "translated_text"],
+                        "additionalProperties": False
+                    }
+                }
+            },
+            "required": ["elements"],
+            "additionalProperties": False
+        }
+    }
+
+
     # 1. Construct the Strict System Prompt
     # We explicitly tell the AI to look at "context" but only return IDs and Translations.
     system_instruction = (
@@ -39,7 +64,11 @@ def translate_ui_elements(elements_list, target_language="Italian"):
             {"role": "system", "content": system_instruction},
             {"role": "user", "content": user_content_json}
         ],
-        "temperature": 0.2,
+        "response_format": {
+            "type": "json_schema",
+            "json_schema": gui_translation_schema
+        },
+        "temperature": 0.1,
         "stream": False
     }
 
@@ -49,40 +78,64 @@ def translate_ui_elements(elements_list, target_language="Italian"):
             Config.AI_BACKEND_URL, 
             headers={"Content-Type": "application/json"}, 
             data=json.dumps(payload),
-            timeout=120 # Give it time for larger batches
+            timeout=None # Give it time for larger batches
         )
         response.raise_for_status()
         
         # 4. Extract the AI's Raw Text Response
-        ai_response_text = response.json()['choices'][0]['message']['content'].strip()
+        ai_response_text = response.json()['choices'][0]['message']['content']
         
         # Clean up potential markdown formatting (common issue with Llama-3)
         # If AI returns ```json [ ... ] ```, we remove the triple backticks
         if ai_response_text.startswith("```"):
             ai_response_text = ai_response_text.strip("`").replace("json", "").strip()
+        
+        parsed_response = json.loads(ai_response_text)
+        
+        # Extract the list of translated items
+        translations_list = parsed_response.get('elements', [])
 
-        # 5. Parse the JSON Output
-        try:
-            translations_map_list = json.loads(ai_response_text)
-        except json.JSONDecodeError:
-            logger.error(f"AI returned invalid JSON: {ai_response_text}")
-            return None
+        # 7. Merge Logic (Reconcile IDs)
+        # Create a map: { "btn_01": "Accedi", ... }
+        lookup_map = {item['id']: item['translated_text'] for item in translations_list}
 
-        # 6. Merge Translations back into Original List
-        # We create a dictionary for fast lookup: { "btn_01": "Accedi", "lbl_02": "Nome" }
-        lookup_map = {item['id']: item['translated_text'] for item in translations_map_list if 'id' in item}
-
-        # We loop through the ORIGINAL list and add the translation found in the map
         final_output = []
         for item in elements_list:
-            # Create a copy of the item so we don't modify the original input
             new_item = item.copy()
-            # If AI translated it, add it. If AI missed it, keep original text as fallback.
+            # If translation exists, use it; otherwise fallback to original
             new_item['translated_text'] = lookup_map.get(item['id'], item['text'])
             final_output.append(new_item)
 
         return final_output
 
+    except json.JSONDecodeError as e:
+        logger.error(f"JSON Parsing Error: {e}. Raw response: {ai_response_text}")
+        return None
     except Exception as e:
         logger.error(f"AI Connection Error: {e}")
         return None
+        # 5. Parse the JSON Output
+    #     try:
+    #         translations_map_list = json.loads(ai_response_text)
+    #     except json.JSONDecodeError:
+    #         logger.error(f"AI returned invalid JSON: {ai_response_text}")
+    #         return None
+
+    #     # 6. Merge Translations back into Original List
+    #     # We create a dictionary for fast lookup: { "btn_01": "Accedi", "lbl_02": "Nome" }
+    #     lookup_map = {item['id']: item['translated_text'] for item in translations_map_list if 'id' in item}
+
+    #     # We loop through the ORIGINAL list and add the translation found in the map
+    #     final_output = []
+    #     for item in elements_list:
+    #         # Create a copy of the item so we don't modify the original input
+    #         new_item = item.copy()
+    #         # If AI translated it, add it. If AI missed it, keep original text as fallback.
+    #         new_item['translated_text'] = lookup_map.get(item['id'], item['text'])
+    #         final_output.append(new_item)
+
+    #     return final_output
+
+    # except Exception as e:
+    #     logger.error(f"AI Connection Error: {e}")
+    #     return None

@@ -25,7 +25,7 @@ def translate_endpoint():
         return jsonify({"error": "Missing 'elements' list in request"}), 400
     
     elements = data['elements']
-    target_lang = data.get('target_language', 'Italian')
+    target_lang = data.get('target_language', 'it')
     
     # Check if elements is actually a list
     if not isinstance(elements, list):

@@ -1,328 +1,226 @@
 {
   "elements": [
     {
-      "context": "link",
-      "id": "text_0_en",
-      "text": "EN",
-      "translated_text": "English"
-    },
-    {
-      "context": "link",
-      "id": "text_1_it",
-      "text": "IT",
-      "translated_text": "Italiano"
-    },
-    {
-      "context": "link",
-      "id": "text_2_fr",
-      "text": "FR",
-      "translated_text": "Fran\u00e7ais"
-    },
-    {
-      "context": "link",
-      "id": "text_3_es",
-      "text": "ES",
-      "translated_text": "Espa\u00f1ol"
+      "context": "heading",
+      "id": "text_64202ba3",
+      "text": "Company",
+      "translated_text": "Azienda"
     },
     {
       "context": "heading",
-      "id": "text_4_azienda",
-      "text": "Azienda",
-      "translated_text": "Company"
+      "id": "text_3550f29a",
+      "text": "CUSTOMIZED SOLUTIONS TO ANY CAPPING NEED",
+      "translated_text": "SOLUZIONI PERSONALIZZATE PER TUTTE LE ESIGENZE DI CHIUSURA"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_f4de055",
+      "text": "AROL was founded in 1978 in Canelli (Italy) and steadily grew as a global provider of capping solutions. We design 100% of our capping and caps sorting machines and we produce inside +95% of their parts.",
+      "translated_text": "AROL \u00e8 stata fondata nel 1978 a Canelli (Italia) e \u00e8 cresciuta costantemente come fornitore globale di soluzioni per la chiusura. Progettiamo il 100% delle nostre macchine di chiusura e caps sorting e produciamo all'interno del +95% dei loro componenti."
+    },
+    {
+      "context": "paragraph",
+      "id": "text_3e00f1",
+      "text": "700+ equipment delivered every year and 25.000+ installed all over the world in a vast variety of industries, from 1000 to 100.000 bph, make of AROL the largest specialist of customized solutions to any capping need.",
+      "translated_text": "700+ macchinari consegnati ogni anno e 25.000+ installati in tutto il mondo in una vasta gamma di industrie, da 1000 a 100.000 bph, rendono AROL il principale specialista di soluzioni personalizzate per qualsiasi esigenza di chiusura."
+    },
+    {
+      "context": "paragraph",
+      "id": "text_e74d7f6",
+      "text": "The AROL technical support is available for the whole life cycle of the machine and counts on a highly skilled team of specialist operating from each of our 11 worldwide offices.",
+      "translated_text": "Il supporto tecnico AROL \u00e8 disponibile per l'intera durata del ciclo di vita della macchina e conta su un team altamente qualificato di specialisti operanti da ciascuna delle nostre 11 sedi mondiali."
     },
     {
       "context": "heading",
-      "id": "text_5_soluzioni_perso",
-      "text": "SOLUZIONI PERSONALIZZATE PER QUALSIASI ESIGENZA DI TAPPATURA",
-      "translated_text": "Customized solutions for any sealing requirement"
+      "id": "text_7717c0b8",
+      "text": "our mission",
+      "translated_text": "la nostra missione"
     },
     {
       "context": "paragraph",
-      "id": "text_6_arol__stata_fo",
-      "text": "AROL \u00e8 stata fondata nel 1978 a Canelli ed \u00e8 cresciuta costantemente come fornitore globale di soluzioni di tappatura. Progettiamo il 100% delle nostre macchine e produciamo internamente +95% dei loro componenti.",
-      "translated_text": "AROL was founded in 1978 in Canelli and has grown steadily as a global supplier of sealing solutions. We design 100% of our machines and produce internally +95% of their components."
-    },
-    {
-      "context": "paragraph",
-      "id": "text_7_oltre_500_macch",
-      "text": "Oltre 500 macchine tappatrici consegnate ogni anno e oltre 27.000 installate in una vasta gamma di settori, da 1.000 a 100.000 BPH, fanno di AROL il pi\u00f9 grande specialista di soluzioni di tappatura personalizzate.",
-      "translated_text": "Over 500 sealing machines delivered every year and over 27,000 installed in various sectors, from 1,000 to 100,000 BPH, making AROL the largest specialist in customized sealing solutions."
-    },
-    {
-      "context": "paragraph",
-      "id": "text_8_il_supporto_tec",
-      "text": "Il supporto tecnico AROL \u00e8 disponibile per l\u2019intero ciclo di vita della macchina e conta su un team altamente qualificato di specialisti che opera da ciascuno dei nostri 9 uffici in tutto il mondo.",
-      "translated_text": "AROL's technical support is available throughout the machine's life cycle and relies on a highly qualified team of specialists operating from each of our 9 offices around the world."
+      "id": "text_780649bc",
+      "text": "To be the premier provider of bespoke, high-performance closure application systems and cap-making equipment, delivering exceptional quality, consumer safety, and unparalleled value.",
+      "translated_text": "Essere il principale fornitore di sistemi di applicazione di chiusura personalizzati e di alta prestazione, capi e macchinari per la produzione di caps, garantendo qualit\u00e0 eccezionale, sicurezza del consumatore e valore ineguagliabile."
     },
     {
       "context": "heading",
-      "id": "text_9_la_nostra_missi",
-      "text": "LA NOSTRA MISSIONE",
-      "translated_text": "Our mission"
+      "id": "text_5d11c876",
+      "text": "our values",
+      "translated_text": "i nostri valori"
     },
     {
       "context": "paragraph",
-      "id": "text_10_essere_il_princ",
-      "text": "Essere il principale fornitore di sistemi di applicazione delle chiusure e di attrezzature per la produzione di tappi su misura e ad alte prestazioni, in grado di offrire qualit\u00e0 eccezionale, sicurezza per i consumatori e un valore senza pari.",
-      "translated_text": "To be the main supplier of application systems and equipment for customized, high-performance caps, offering exceptional quality, consumer safety, and unparalleled value."
+      "id": "text_4cdb3c85",
+      "text": "Meet the challenge",
+      "translated_text": "Incontrare la sfida"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_39b30cf1",
+      "text": "Fulfill the commitments",
+      "translated_text": "Soddisfare gli impegni"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_78f4cd9",
+      "text": "Build long term relationships",
+      "translated_text": "Costruire relazioni a lungo termine"
     },
     {
       "context": "heading",
-      "id": "text_11_i_nostri_valori",
-      "text": "I NOSTRI VALORI",
-      "translated_text": "Our values"
+      "id": "text_310b11e7",
+      "text": "OUR STRATEGY",
+      "translated_text": "LA NOSTRA STRATEGIA"
     },
     {
       "context": "paragraph",
-      "id": "text_12_accogliere_la_s",
-      "text": "Accogliere la sfida",
-      "translated_text": "To face challenges"
+      "id": "text_7a70d215",
+      "text": "Innovative attitude",
+      "translated_text": "Attenzione innovativa"
     },
     {
       "context": "paragraph",
-      "id": "text_13_rispettare_gli_",
-      "text": "Rispettare gli impegni",
-      "translated_text": "To respect commitments"
+      "id": "text_47ee03c",
+      "text": "Top quality products and service",
+      "translated_text": "Prodotti e servizi di alta qualit\u00e0"
     },
     {
       "context": "paragraph",
-      "id": "text_14_costruire_relaz",
-      "text": "Costruire relazioni a lungo termine",
-      "translated_text": "To build long-term relationships"
+      "id": "text_17fdbbd",
+      "text": "Implement best practices from multiple industries",
+      "translated_text": "Implementare le migliori pratiche da diverse industrie"
     },
     {
       "context": "heading",
-      "id": "text_15_le_nostre_strat",
-      "text": "LE NOSTRE STRATEGIE",
-      "translated_text": "Our strategies"
+      "id": "text_35c38524",
+      "text": "Our plants",
+      "translated_text": "Le nostre piante"
     },
     {
       "context": "paragraph",
-      "id": "text_16_attitudine_inno",
-      "text": "Attitudine innovativa",
-      "translated_text": "Innovative attitude"
+      "id": "text_c1a4f12",
+      "text": "WE INTERNALLY PRODUCE +95% OF OUR MECHANICAL PARTS",
+      "translated_text": "PRODUCHIAMO INTERNAMENTE IL +95% DEI NOSTRI COMPONENTI MECCANICI"
     },
     {
       "context": "paragraph",
-      "id": "text_17_prodotti_e_serv",
-      "text": "Prodotti e servizi di altissima qualit\u00e0",
-      "translated_text": "High-quality products and services"
+      "id": "text_73d2c45a",
+      "text": "Vertical integration of the whole manufacturing cycle guarantees a real production flexibility and a constant quality and delivery control through the entire process.",
+      "translated_text": "L'integrazione verticale del ciclo di produzione intero garantisce una vera flessibilit\u00e0 produttiva e un controllo costante della qualit\u00e0 e della consegna attraverso tutto il processo."
     },
     {
       "context": "paragraph",
-      "id": "text_18_implementare_le",
-      "text": "Implementare le best practice di diversi settori",
-      "translated_text": "To implement best practices from various sectors"
+      "id": "text_7f1d0f4a",
+      "text": "In Canelli (ASTI) AROL can count on 3 manufacturing plants:",
+      "translated_text": "A Canelli (ASTI) AROL conta su 3 impianti di produzione:"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_20e76e70",
+      "text": "MACHINES-TOOLS DEPARTMENT (+6500 sqm)",
+      "translated_text": "DIPARTIMENTO MACCHINARI-STRUMENTI (+6500 mq)"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_70838d7",
+      "text": "ASSEMBLING WORKSHOP AND WAREHOUSE (+20.000 sqm)",
+      "translated_text": "LAVORAZIONE DI ASSEMBLAGGIO E MAGAZZINO (+20.000 mq)"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_7bedea61",
+      "text": "CAPS SORTERS AND COMPONENTS ASSEMBLING (5.500 sqm)",
+      "translated_text": "CAPS SORTERS E COMPONENTI DI ASSEMBLAGGIO (5.500 mq)"
     },
     {
       "context": "heading",
-      "id": "text_19_i_nostri_stabil",
-      "text": "I NOSTRI STABILIMENTI",
-      "translated_text": "Our facilities"
+      "id": "text_7c3d1f28",
+      "text": "global presence",
+      "translated_text": "presenza globale"
     },
     {
       "context": "paragraph",
-      "id": "text_20_produciamo_inte",
-      "text": "PRODUCIAMO INTERNAMENTE + DEL 95% DEI NOSTRI COMPONENTI",
-      "translated_text": "We produce internally +95% of our components"
+      "id": "text_4f4bd605",
+      "text": "From Italy, where our Headquarters and production plants are, we are close to our customers wherever they are through our network of 11 branches.",
+      "translated_text": "Da Italia, dove sono situati i nostri quartieri generali e le nostre imprese di produzione, siamo vicini ai nostri clienti ovunque siano attraverso la nostra rete di 11 sedi."
     },
     {
       "context": "paragraph",
-      "id": "text_21_lintegrazione_",
-      "text": "L'integrazione verticale di tutta la progettazione e del ciclo produttivo garantisce una flessibilit\u00e0 reale e una qualit\u00e0 costante in ogni fase della produzione.",
-      "translated_text": "Vertical integration of all design and production phases ensures real flexibility and constant quality throughout the production process."
+      "id": "text_14963",
+      "text": "USA",
+      "translated_text": "USA"
     },
     {
       "context": "paragraph",
-      "id": "text_22_a_canelli_asti",
-      "text": "A Canelli (Asti) AROL pu\u00f2 contare su 3 stabilimenti produttivi:",
-      "translated_text": "In Canelli (Asti), AROL can count on 3 production facilities:"
+      "id": "text_65c92cb2",
+      "text": "LATIN AMERICA",
+      "translated_text": "LATIN AMERICA"
     },
     {
       "context": "paragraph",
-      "id": "text_23_reparto_macchin",
-      "text": "REPARTO MACCHINE UTENSILI (+6500 mq.)",
-      "translated_text": "MACHINE TOOL DEPARTMENT (+6,500 sqm)"
+      "id": "text_75422d25",
+      "text": "BRASIL",
+      "translated_text": "BRASIL"
     },
     {
       "context": "paragraph",
-      "id": "text_24_uffici_montagg",
-      "text": "UFFICI, MONTAGGIO E MAGAZZINO (+20.000 mq.)",
-      "translated_text": "OFFICES, ASSEMBLY AND WAREHOUSE (+20,000 sqm)"
+      "id": "text_3d1fd37",
+      "text": "CHINA",
+      "translated_text": "CINA"
     },
     {
       "context": "paragraph",
-      "id": "text_25_montaggio_compo",
-      "text": "MONTAGGIO COMPONENTI E ALIMENTATORI (5.500 mq.)",
-      "translated_text": "COMPONENTS AND POWER SUPPLY ASSEMBLY (5,500 sqm)"
-    },
-    {
-      "context": "heading",
-      "id": "text_26_presenza_global",
-      "text": "PRESENZA GLOBALE",
-      "translated_text": "Global presence"
-    },
-    {
-      "context": "paragraph",
-      "id": "text_27_dallitalia_do",
-      "text": "Dall'Italia, dove hanno sede il nostro headquarter e gli stabilimenti produttivi, siamo vicini ai nostri clienti ovunque si trovino attraverso la nostra rete di 9 filiali.",
-      "translated_text": "From Italy, where our headquarters and production facilities are located, we are close to our customers wherever they may be through our network of 9 branches."
-    },
-    {
-      "context": "paragraph",
-      "id": "text_28_stati_uniti",
-      "text": "STATI UNITI",
-      "translated_text": "United States"
-    },
-    {
-      "context": "paragraph",
-      "id": "text_29_america_latina",
-      "text": "AMERICA LATINA",
-      "translated_text": "Latin America"
-    },
-    {
-      "context": "paragraph",
-      "id": "text_30_brasile",
-      "text": "BRASILE",
-      "translated_text": "Brazil"
-    },
-    {
-      "context": "paragraph",
-      "id": "text_31_cina",
-      "text": "CINA",
-      "translated_text": "China"
-    },
-    {
-      "context": "paragraph",
-      "id": "text_32_india",
+      "id": "text_4293117",
       "text": "INDIA",
-      "translated_text": "India"
+      "translated_text": "INDIA"
     },
     {
       "context": "paragraph",
-      "id": "text_33_thailandia",
-      "text": "THAILANDIA",
-      "translated_text": "Thailand"
+      "id": "text_69b6a187",
+      "text": "THAILAND",
+      "translated_text": "THAILAND"
     },
     {
       "context": "paragraph",
-      "id": "text_34_francia",
-      "text": "FRANCIA",
-      "translated_text": "France"
+      "id": "text_7c157c1b",
+      "text": "FRANCE",
+      "translated_text": "FRANCIA"
     },
     {
       "context": "paragraph",
-      "id": "text_35_spagna",
-      "text": "SPAGNA",
-      "translated_text": "Spain"
+      "id": "text_4b6f9a9",
+      "text": "SPAIN",
+      "translated_text": "SPAGNA"
     },
     {
       "context": "paragraph",
-      "id": "text_36_germania",
-      "text": "GERMANIA",
-      "translated_text": "Germany"
+      "id": "text_26405793",
+      "text": "GERMANY",
+      "translated_text": "GERMANY"
     },
     {
       "context": "paragraph",
-      "id": "text_37_download_pdf",
+      "id": "text_a96",
+      "text": "UK",
+      "translated_text": "UK"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_446088a",
+      "text": "KOREA",
+      "translated_text": "COREA"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_4bce595a",
       "text": "Download PDF",
-      "translated_text": "Download PDF"
+      "translated_text": "Scarica il PDF"
     },
     {
       "context": "label",
-      "id": "text_38_download",
+      "id": "text_7c3f4778",
       "text": "DOWNLOAD",
-      "translated_text": "DOWNLOAD"
-    },
-    {
-      "context": "paragraph",
-      "id": "text_39_arol_spa__v",
-      "text": "AROL S.P.A. \u2013 VIALE ITALIA, 193 - 14053 CANELLI (ASTI) ITALIA - C.F. E P.IVA 03217610967 - REA\u00a0 AT 108104 - CAP. SOC. \u20ac 4.500.000 I.V.",
-      "translated_text": "AROL S.P.A. - Viale Italia, 193 - 14053 Canelli (Asti) Italy - C.F. and P.IVA 03217610967 - REA AT 108104 - Capital stock \u20ac 4,500,000 I.V."
-    },
-    {
-      "context": "paragraph",
-      "id": "text_40_member_of",
-      "text": "MEMBER OF",
-      "translated_text": "Member of"
-    },
-    {
-      "context": "link",
-      "id": "text_41_azienda",
-      "text": "AZIENDA",
-      "translated_text": "Company"
-    },
-    {
-      "context": "link",
-      "id": "text_42_post_vendita",
-      "text": "POST VENDITA",
-      "translated_text": "After-sales"
-    },
-    {
-      "context": "link",
-      "id": "text_43_lavora_con_noi",
-      "text": "LAVORA CON NOI",
-      "translated_text": "Work with us"
-    },
-    {
-      "context": "link",
-      "id": "text_44_termini__condi",
-      "text": "TERMINI & CONDIZIONI",
-      "translated_text": "Terms and conditions"
-    },
-    {
-      "context": "link",
-      "id": "text_45_note_legali",
-      "text": "NOTE LEGALI",
-      "translated_text": "Legal notes"
-    },
-    {
-      "context": "link",
-      "id": "text_46_codice_etico",
-      "text": "CODICE ETICO",
-      "translated_text": "Code of ethics"
-    },
-    {
-      "context": "link",
-      "id": "text_47_whistleblowing",
-      "text": "WHISTLEBLOWING",
-      "translated_text": "Whistleblowing"
-    },
-    {
-      "context": "link",
-      "id": "text_48_contatti",
-      "text": "CONTATTI",
-      "translated_text": "Contacts"
-    },
-    {
-      "context": "link",
-      "id": "text_49_privacy_policy",
-      "text": "PRIVACY POLICY",
-      "translated_text": "Privacy policy"
-    },
-    {
-      "context": "link",
-      "id": "text_50_cookie_policy",
-      "text": "COOKIE POLICY",
-      "translated_text": "Cookie policy"
-    },
-    {
-      "context": "paragraph",
-      "id": "text_51_modifica_prefer",
-      "text": "MODIFICA PREFERENZE COOKIE",
-      "translated_text": "Modify cookie preferences"
-    },
-    {
-      "context": "paragraph",
-      "id": "text_52_project_by",
-      "text": "PROJECT BY",
-      "translated_text": "Project by"
-    },
-    {
-      "context": "link",
-      "id": "text_53_webimmagine",
-      "text": "WEBIMMAGINE",
-      "translated_text": "Webimagine"
+      "translated_text": "SCARICA"
     }
   ],
   "target_language": "it"
