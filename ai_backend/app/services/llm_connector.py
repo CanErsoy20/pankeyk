@@ -2,14 +2,20 @@ import requests
 import json
 import logging
 from app.config import Config
+from app.services.mock_responses import get_mock_translation
 
 logger = logging.getLogger(__name__)
+
+MOCK_AI = True
 
 def translate_ui_elements(elements_list, target_language="Italian"):
     """
     Takes a list of UI elements (dicts with id, text, context) and returns 
     the list with a new 'translated_text' field added.
     """
+
+    if MOCK_AI:
+        return get_mock_translation(elements_list, target_language)
     
     # 1. Construct the Strict System Prompt
     # We explicitly tell the AI to look at "context" but only return IDs and Translations.

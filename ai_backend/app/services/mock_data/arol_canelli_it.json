@@ -1,0 +1,329 @@
+{
+  "elements": [
+    {
+      "context": "link",
+      "id": "text_0_en",
+      "text": "EN",
+      "translated_text": "English"
+    },
+    {
+      "context": "link",
+      "id": "text_1_it",
+      "text": "IT",
+      "translated_text": "Italiano"
+    },
+    {
+      "context": "link",
+      "id": "text_2_fr",
+      "text": "FR",
+      "translated_text": "Fran\u00e7ais"
+    },
+    {
+      "context": "link",
+      "id": "text_3_es",
+      "text": "ES",
+      "translated_text": "Espa\u00f1ol"
+    },
+    {
+      "context": "heading",
+      "id": "text_4_azienda",
+      "text": "Azienda",
+      "translated_text": "Company"
+    },
+    {
+      "context": "heading",
+      "id": "text_5_soluzioni_perso",
+      "text": "SOLUZIONI PERSONALIZZATE PER QUALSIASI ESIGENZA DI TAPPATURA",
+      "translated_text": "Customized solutions for any sealing requirement"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_6_arol__stata_fo",
+      "text": "AROL \u00e8 stata fondata nel 1978 a Canelli ed \u00e8 cresciuta costantemente come fornitore globale di soluzioni di tappatura. Progettiamo il 100% delle nostre macchine e produciamo internamente +95% dei loro componenti.",
+      "translated_text": "AROL was founded in 1978 in Canelli and has grown steadily as a global supplier of sealing solutions. We design 100% of our machines and produce internally +95% of their components."
+    },
+    {
+      "context": "paragraph",
+      "id": "text_7_oltre_500_macch",
+      "text": "Oltre 500 macchine tappatrici consegnate ogni anno e oltre 27.000 installate in una vasta gamma di settori, da 1.000 a 100.000 BPH, fanno di AROL il pi\u00f9 grande specialista di soluzioni di tappatura personalizzate.",
+      "translated_text": "Over 500 sealing machines delivered every year and over 27,000 installed in various sectors, from 1,000 to 100,000 BPH, making AROL the largest specialist in customized sealing solutions."
+    },
+    {
+      "context": "paragraph",
+      "id": "text_8_il_supporto_tec",
+      "text": "Il supporto tecnico AROL \u00e8 disponibile per l\u2019intero ciclo di vita della macchina e conta su un team altamente qualificato di specialisti che opera da ciascuno dei nostri 9 uffici in tutto il mondo.",
+      "translated_text": "AROL's technical support is available throughout the machine's life cycle and relies on a highly qualified team of specialists operating from each of our 9 offices around the world."
+    },
+    {
+      "context": "heading",
+      "id": "text_9_la_nostra_missi",
+      "text": "LA NOSTRA MISSIONE",
+      "translated_text": "Our mission"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_10_essere_il_princ",
+      "text": "Essere il principale fornitore di sistemi di applicazione delle chiusure e di attrezzature per la produzione di tappi su misura e ad alte prestazioni, in grado di offrire qualit\u00e0 eccezionale, sicurezza per i consumatori e un valore senza pari.",
+      "translated_text": "To be the main supplier of application systems and equipment for customized, high-performance caps, offering exceptional quality, consumer safety, and unparalleled value."
+    },
+    {
+      "context": "heading",
+      "id": "text_11_i_nostri_valori",
+      "text": "I NOSTRI VALORI",
+      "translated_text": "Our values"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_12_accogliere_la_s",
+      "text": "Accogliere la sfida",
+      "translated_text": "To face challenges"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_13_rispettare_gli_",
+      "text": "Rispettare gli impegni",
+      "translated_text": "To respect commitments"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_14_costruire_relaz",
+      "text": "Costruire relazioni a lungo termine",
+      "translated_text": "To build long-term relationships"
+    },
+    {
+      "context": "heading",
+      "id": "text_15_le_nostre_strat",
+      "text": "LE NOSTRE STRATEGIE",
+      "translated_text": "Our strategies"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_16_attitudine_inno",
+      "text": "Attitudine innovativa",
+      "translated_text": "Innovative attitude"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_17_prodotti_e_serv",
+      "text": "Prodotti e servizi di altissima qualit\u00e0",
+      "translated_text": "High-quality products and services"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_18_implementare_le",
+      "text": "Implementare le best practice di diversi settori",
+      "translated_text": "To implement best practices from various sectors"
+    },
+    {
+      "context": "heading",
+      "id": "text_19_i_nostri_stabil",
+      "text": "I NOSTRI STABILIMENTI",
+      "translated_text": "Our facilities"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_20_produciamo_inte",
+      "text": "PRODUCIAMO INTERNAMENTE + DEL 95% DEI NOSTRI COMPONENTI",
+      "translated_text": "We produce internally +95% of our components"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_21_lintegrazione_",
+      "text": "L'integrazione verticale di tutta la progettazione e del ciclo produttivo garantisce una flessibilit\u00e0 reale e una qualit\u00e0 costante in ogni fase della produzione.",
+      "translated_text": "Vertical integration of all design and production phases ensures real flexibility and constant quality throughout the production process."
+    },
+    {
+      "context": "paragraph",
+      "id": "text_22_a_canelli_asti",
+      "text": "A Canelli (Asti) AROL pu\u00f2 contare su 3 stabilimenti produttivi:",
+      "translated_text": "In Canelli (Asti), AROL can count on 3 production facilities:"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_23_reparto_macchin",
+      "text": "REPARTO MACCHINE UTENSILI (+6500 mq.)",
+      "translated_text": "MACHINE TOOL DEPARTMENT (+6,500 sqm)"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_24_uffici_montagg",
+      "text": "UFFICI, MONTAGGIO E MAGAZZINO (+20.000 mq.)",
+      "translated_text": "OFFICES, ASSEMBLY AND WAREHOUSE (+20,000 sqm)"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_25_montaggio_compo",
+      "text": "MONTAGGIO COMPONENTI E ALIMENTATORI (5.500 mq.)",
+      "translated_text": "COMPONENTS AND POWER SUPPLY ASSEMBLY (5,500 sqm)"
+    },
+    {
+      "context": "heading",
+      "id": "text_26_presenza_global",
+      "text": "PRESENZA GLOBALE",
+      "translated_text": "Global presence"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_27_dallitalia_do",
+      "text": "Dall'Italia, dove hanno sede il nostro headquarter e gli stabilimenti produttivi, siamo vicini ai nostri clienti ovunque si trovino attraverso la nostra rete di 9 filiali.",
+      "translated_text": "From Italy, where our headquarters and production facilities are located, we are close to our customers wherever they may be through our network of 9 branches."
+    },
+    {
+      "context": "paragraph",
+      "id": "text_28_stati_uniti",
+      "text": "STATI UNITI",
+      "translated_text": "United States"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_29_america_latina",
+      "text": "AMERICA LATINA",
+      "translated_text": "Latin America"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_30_brasile",
+      "text": "BRASILE",
+      "translated_text": "Brazil"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_31_cina",
+      "text": "CINA",
+      "translated_text": "China"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_32_india",
+      "text": "INDIA",
+      "translated_text": "India"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_33_thailandia",
+      "text": "THAILANDIA",
+      "translated_text": "Thailand"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_34_francia",
+      "text": "FRANCIA",
+      "translated_text": "France"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_35_spagna",
+      "text": "SPAGNA",
+      "translated_text": "Spain"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_36_germania",
+      "text": "GERMANIA",
+      "translated_text": "Germany"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_37_download_pdf",
+      "text": "Download PDF",
+      "translated_text": "Download PDF"
+    },
+    {
+      "context": "label",
+      "id": "text_38_download",
+      "text": "DOWNLOAD",
+      "translated_text": "DOWNLOAD"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_39_arol_spa__v",
+      "text": "AROL S.P.A. \u2013 VIALE ITALIA, 193 - 14053 CANELLI (ASTI) ITALIA - C.F. E P.IVA 03217610967 - REA\u00a0 AT 108104 - CAP. SOC. \u20ac 4.500.000 I.V.",
+      "translated_text": "AROL S.P.A. - Viale Italia, 193 - 14053 Canelli (Asti) Italy - C.F. and P.IVA 03217610967 - REA AT 108104 - Capital stock \u20ac 4,500,000 I.V."
+    },
+    {
+      "context": "paragraph",
+      "id": "text_40_member_of",
+      "text": "MEMBER OF",
+      "translated_text": "Member of"
+    },
+    {
+      "context": "link",
+      "id": "text_41_azienda",
+      "text": "AZIENDA",
+      "translated_text": "Company"
+    },
+    {
+      "context": "link",
+      "id": "text_42_post_vendita",
+      "text": "POST VENDITA",
+      "translated_text": "After-sales"
+    },
+    {
+      "context": "link",
+      "id": "text_43_lavora_con_noi",
+      "text": "LAVORA CON NOI",
+      "translated_text": "Work with us"
+    },
+    {
+      "context": "link",
+      "id": "text_44_termini__condi",
+      "text": "TERMINI & CONDIZIONI",
+      "translated_text": "Terms and conditions"
+    },
+    {
+      "context": "link",
+      "id": "text_45_note_legali",
+      "text": "NOTE LEGALI",
+      "translated_text": "Legal notes"
+    },
+    {
+      "context": "link",
+      "id": "text_46_codice_etico",
+      "text": "CODICE ETICO",
+      "translated_text": "Code of ethics"
+    },
+    {
+      "context": "link",
+      "id": "text_47_whistleblowing",
+      "text": "WHISTLEBLOWING",
+      "translated_text": "Whistleblowing"
+    },
+    {
+      "context": "link",
+      "id": "text_48_contatti",
+      "text": "CONTATTI",
+      "translated_text": "Contacts"
+    },
+    {
+      "context": "link",
+      "id": "text_49_privacy_policy",
+      "text": "PRIVACY POLICY",
+      "translated_text": "Privacy policy"
+    },
+    {
+      "context": "link",
+      "id": "text_50_cookie_policy",
+      "text": "COOKIE POLICY",
+      "translated_text": "Cookie policy"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_51_modifica_prefer",
+      "text": "MODIFICA PREFERENZE COOKIE",
+      "translated_text": "Modify cookie preferences"
+    },
+    {
+      "context": "paragraph",
+      "id": "text_52_project_by",
+      "text": "PROJECT BY",
+      "translated_text": "Project by"
+    },
+    {
+      "context": "link",
+      "id": "text_53_webimmagine",
+      "text": "WEBIMMAGINE",
+      "translated_text": "Webimagine"
+    }
+  ],
+  "target_language": "it"
+}

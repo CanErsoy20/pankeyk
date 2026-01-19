@@ -1,95 +1,162 @@
-const TARGET_LANGUAGE = "it";
+(() => {
+    const TARGET_LANGUAGE = "it";
+    const CACHE_KEY = "pankeyk_translation_cache";
 
-function isVisible(el) {
-    const style = window.getComputedStyle(el);
-    return (
-        style.display !== "none" &&
-        style.visibility !== "hidden" &&
-        el.offsetParent !== null
-    );
-}
+    /* =========================
+       Utilities
+    ========================== */
 
-function getContext(tag) {
-    switch (tag) {
-        case "button":
-            return "button";
-        case "label":
-            return "label";
-        case "input":
-            return "input";
-        case "a":
-            return "link";
-        case "h1":
-        case "h2":
-        case "h3":
-            return "heading";
-        default:
-            return "paragraph";
+    function isVisible(el) {
+        const style = window.getComputedStyle(el);
+        return (
+            style.display !== "none" &&
+            style.visibility !== "hidden" &&
+            el.offsetParent !== null
+        );
     }
-}
 
-function generateId(text, index) {
-    return `text_${index}_${text
-        .slice(0, 15)
-        .toLowerCase()
-        .replace(/\s+/g, "_")
-        .replace(/[^a-z0-9_]/g, "")}`;
-}
+    function hashText(text) {
+        let hash = 0;
+        for (let i = 0; i < text.length; i++) {
+            hash = (hash << 5) - hash + text.charCodeAt(i);
+            hash |= 0;
+        }
+        return Math.abs(hash).toString(16);
+    }
 
-function scanDOM() {
-    const results = [];
-    const walker = document.createTreeWalker(
-        document.body,
-        NodeFilter.SHOW_TEXT
-    );
+    function getContext(tag) {
+        switch (tag) {
+            case "button": return "button";
+            case "label": return "label";
+            case "input": return "input";
+            case "a": return "link";
+            case "h1":
+            case "h2":
+            case "h3": return "heading";
+            default: return "paragraph";
+        }
+    }
 
-    let node;
-    let index = 0;
+    /* =========================
+       DOM Scan
+    ========================== */
 
-    while ((node = walker.nextNode())) {
-        const text = node.textContent.trim();
-        if (!text) continue;
+    function scanDOM() {
+        const results = [];
+        const walker = document.createTreeWalker(
+            document.body,
+            NodeFilter.SHOW_TEXT
+        );
 
-        const parent = node.parentElement;
-        if (!parent || !isVisible(parent)) continue;
+        let node;
+        while ((node = walker.nextNode())) {
+            const text = node.textContent?.trim();
+            if (!text) continue;
 
-        results.push({
-            id: generateId(text, index++),
-            text: text,
-            context: getContext(parent.tagName.toLowerCase()),
+            const parent = node.parentElement;
+            if (!parent || !isVisible(parent)) continue;
+
+            const id = `text_${hashText(text)}`;
+
+            results.push({
+                id,
+                text,
+                context: getContext(parent.tagName.toLowerCase()),
+                node
+            });
+        }
+        return results;
+    }
+
+    /* =========================
+       Cache
+    ========================== */
+
+    function loadCache() {
+        return JSON.parse(localStorage.getItem(CACHE_KEY) || "{}");
+    }
+
+    function saveCache(cache) {
+        localStorage.setItem(CACHE_KEY, JSON.stringify(cache));
+    }
+
+    function applyTranslations(elements, cache) {
+        elements.forEach(el => {
+            const translated = cache[el.id];
+            if (translated && el.node.textContent !== translated) {
+                el.node.textContent = translated;
+            }
         });
     }
 
-    return results;
-}
+    /* =========================
+       Backend
+    ========================== */
 
-async function send(texts) {
-    const payload = {
-        target_language: TARGET_LANGUAGE,
-        elements: texts,
-    };
-
-    try {
-        await fetch("http://localhost:5000/translate", {
+    async function sendToBackend(payload) {
+        const response = await fetch("http://localhost:5000/translate", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),
         });
-    } catch (e) {
-        console.error("Failed to send GUI text:", e);
+
+        if (!response.ok) {
+            throw new Error("Translation request failed");
+        }
+
+        return response.json();
     }
-}
 
-// Initial run
-send(scanDOM());
+    /* =========================
+       Main Logic
+    ========================== */
 
-// Observe dynamic changes
-const observer = new MutationObserver(() => {
-    send(scanDOM());
-});
+    async function runTranslation() {
+        const elements = scanDOM();
+        const cache = loadCache();
 
-observer.observe(document.body, {
-    childList: true,
-    subtree: true,
-    characterData: true,
-});
+        // 1. Apply cached translations immediately
+        applyTranslations(elements, cache);
+
+        // 2. Find untranslated elements
+        const missing = elements.filter(el => !cache[el.id]);
+        if (missing.length === 0) return;
+
+        const payload = {
+            target_language: TARGET_LANGUAGE,
+            elements: missing.map(el => ({
+                id: el.id,
+                text: el.text,
+                context: el.context
+            }))
+        };
+
+        const response = await sendToBackend(payload);
+
+        response.elements.forEach(el => {
+            cache[el.id] = el.translated_text;
+        });
+
+        saveCache(cache);
+        applyTranslations(elements, cache);
+    }
+
+    /* =========================
+       Mutation Watcher (debounced)
+    ========================== */
+
+    let debounce = null;
+
+    const observer = new MutationObserver(() => {
+        clearTimeout(debounce);
+        debounce = setTimeout(runTranslation, 300);
+    });
+
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+
+    // Initial run
+    runTranslation();
+})();

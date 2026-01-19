@@ -1,11 +1,10 @@
-import { ExtractedText } from "../extractor/domScanner";
-
-export function buildJson(
-    texts: ExtractedText[],
-    targetLanguage: string
-) {
+export function toBackendPayload(elements: any[], targetLanguage: string) {
     return {
         target_language: targetLanguage,
-        texts: texts,
+        elements: elements.map(el => ({
+            id: el.id,
+            text: el.text,
+            context: el.context
+        }))
     };
 }

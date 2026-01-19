@@ -1,48 +1,35 @@
 import { isVisible } from "./visibility";
 
-export interface ExtractedText {
-    id: string;
-    text: string;
-    context: string;
+function hashText(text: string): string {
+    let hash = 0;
+    for (let i = 0; i < text.length; i++) {
+        hash = (hash << 5) - hash + text.charCodeAt(i);
+        hash |= 0;
+    }
+    return Math.abs(hash).toString(16);
 }
 
 function getContext(tag: string): string {
     switch (tag) {
-        case "button":
-            return "button";
-        case "label":
-            return "label";
-        case "input":
-            return "input";
+        case "button": return "button";
+        case "label": return "label";
+        case "input": return "input";
+        case "a": return "link";
         case "h1":
         case "h2":
-        case "h3":
-            return "heading";
-        case "a":
-            return "link";
-        default:
-            return "paragraph";
+        case "h3": return "heading";
+        default: return "paragraph";
     }
 }
 
-function generateId(text: string, index: number): string {
-    return `text_${index}_${text
-        .slice(0, 15)
-        .toLowerCase()
-        .replace(/\s+/g, "_")
-        .replace(/[^a-z0-9_]/g, "")}`;
-}
-
-export function scanDOM(): ExtractedText[] {
-    const results: ExtractedText[] = [];
+export function scanDOM() {
+    const results: any[] = [];
     const walker = document.createTreeWalker(
         document.body,
         NodeFilter.SHOW_TEXT
     );
 
-    let node: Node | null;
-    let index = 0;
-
+    let node;
     while ((node = walker.nextNode())) {
         const text = node.textContent?.trim();
         if (!text) continue;
@@ -50,10 +37,13 @@ export function scanDOM(): ExtractedText[] {
         const parent = node.parentElement;
         if (!parent || !isVisible(parent)) continue;
 
+        const id = `text_${hashText(text)}`;
+
         results.push({
-            id: generateId(text, index++),
+            id,
             text,
             context: getContext(parent.tagName.toLowerCase()),
+            node
         });
     }
 
