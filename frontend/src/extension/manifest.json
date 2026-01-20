@@ -1,10 +1,14 @@
 {
   "manifest_version": 3,
   "name": "GUI Text Extractor",
-  "version": "1.0",
+  "version": "1.1",
   "description": "Extracts GUI text and sends it to AI backend",
-  "permissions": ["activeTab", "scripting"],
+  "permissions": ["activeTab", "scripting", "storage"],
   "host_permissions": ["<all_urls>"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Select Translation Language"
+  },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],

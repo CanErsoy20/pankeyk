@@ -1,16 +1,15 @@
 (() => {
-    const TARGET_LANGUAGE = "it";
     const PAGE_KEY = `${location.hostname}${location.pathname}`;
-    const CACHE_KEY = `pankeyk_translation_cache::${TARGET_LANGUAGE}::${PAGE_KEY}`;
 
     let initialized = false;
     let requestInFlight = false;
     let resizeInProgress = false;
+    
+    //State for language and abort controller
+    let currentLanguage = null;
+    let currentAbortController = null;
 
-    /* =========================
-       Utilities
-    ========================== */
-
+    //Utilities
     function isVisible(el) {
         const style = window.getComputedStyle(el);
         return (
@@ -35,17 +34,12 @@
             case "label": return "label";
             case "input": return "input";
             case "a": return "link";
-            case "h1":
-            case "h2":
-            case "h3": return "heading";
+            case "h1": case "h2": case "h3": return "heading";
             default: return "paragraph";
         }
     }
 
-    /* =========================
-       DOM Scan (STABLE IDs)
-    ========================== */
-
+    //DOM Scan
     function scanDOM() {
         const results = [];
         const walker = document.createTreeWalker(
@@ -61,7 +55,6 @@
             const parent = node.parentElement;
             if (!parent || !isVisible(parent)) continue;
 
-            // 🔒 Stable ID stored ONCE on node
             if (!node.__pankeykId) {
                 node.__pankeykId = `text_${stableHash(text)}`;
                 node.__pankeykOriginalText = text;
@@ -77,16 +70,19 @@
         return results;
     }
 
-    /* =========================
-       Cache
-    ========================== */
+    //Cache (Dynamic Key)
+    function getCacheKey() {
+        return `pankeyk_translation_cache::${currentLanguage}::${PAGE_KEY}`;
+    }
 
     function loadCache() {
-        return JSON.parse(localStorage.getItem(CACHE_KEY) || "{}");
+        if (!currentLanguage) return {};
+        return JSON.parse(localStorage.getItem(getCacheKey()) || "{}");
     }
 
     function saveCache(cache) {
-        localStorage.setItem(CACHE_KEY, JSON.stringify(cache));
+        if (!currentLanguage) return;
+        localStorage.setItem(getCacheKey(), JSON.stringify(cache));
     }
 
     function applyTranslations(elements, cache) {
@@ -98,35 +94,43 @@
         });
     }
 
-    /* =========================
-       Backend
-    ========================== */
-
-    async function sendToBackend(payload) {
+    //Backend
+    async function sendToBackend(payload, signal) {
         const response = await fetch("http://localhost:5000/translate", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),
+            signal: signal //Abort signal
         });
 
         if (!response.ok) {
-            throw new Error("Translation request failed");
+            throw new Error("Backend translation failed");
         }
 
         return response.json();
     }
 
-    /* =========================
-       Main Logic
-    ========================== */
+    //Main Logic
+    async function runTranslation(forceLanguage = null) {
+        if (resizeInProgress) return;
 
-    async function runTranslation() {
-        if (requestInFlight || resizeInProgress) return;
+        // Determine Language
+        if (forceLanguage) {
+            currentLanguage = forceLanguage;
+        } else if (!currentLanguage) {
+            //Check storage on first load
+            const stored = await chrome.storage.local.get(['targetLanguage']);
+            if (stored.targetLanguage) {
+                currentLanguage = stored.targetLanguage;
+            } else {
+                console.log("GUI Extractor: No language selected. Waiting for user.");
+                return;
+            }
+        }
 
         const elements = scanDOM();
         const cache = loadCache();
 
-        // Apply cache immediately
         applyTranslations(elements, cache);
 
         const missing = elements.filter(el => !cache[el.id]);
@@ -135,12 +139,23 @@
             return;
         }
 
+        //ABORT previous request if exists
+        if (currentAbortController) {
+            console.log("Aborting previous request...");
+            currentAbortController.abort();
+        }
+
+        //AbortController
+        currentAbortController = new AbortController();
+        const signal = currentAbortController.signal;
+
         requestInFlight = true;
 
         try {
             const payload = {
-                target_language: TARGET_LANGUAGE,
+                target_language: currentLanguage,
                 page_url: window.location.href,
+                request_id: Date.now(),
                 elements: missing.map(el => ({
                     id: el.id,
                     text: el.text,
@@ -148,7 +163,7 @@
                 }))
             };
 
-            const response = await sendToBackend(payload);
+            const response = await sendToBackend(payload, signal);
 
             response.elements.forEach(el => {
                 cache[el.id] = el.translated_text;
@@ -156,22 +171,33 @@
 
             saveCache(cache);
             applyTranslations(elements, cache);
+        } catch (error) {
+            if (error.name === 'AbortError') {
+                console.log("Request aborted by user.");
+            } else {
+                console.error(error);
+            }
         } finally {
             requestInFlight = false;
             initialized = true;
         }
     }
 
-    /* =========================
-       Mutation Watcher
-    ========================== */
+    //Listeners
 
+    // Listen for Popup selection
+    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+        if (request.action === "CHANGE_LANGUAGE") {
+            runTranslation(request.language);
+        }
+    });
+
+    //Mutation Observer
     let debounce = null;
-
     const observer = new MutationObserver(() => {
         if (!initialized || resizeInProgress) return;
         clearTimeout(debounce);
-        debounce = setTimeout(runTranslation, 300);
+        debounce = setTimeout(() => runTranslation(), 300);
     });
 
     observer.observe(document.body, {
@@ -179,12 +205,8 @@
         subtree: true
     });
 
-    /* =========================
-       Resize Guard
-    ========================== */
-
+    //Resize Guard 
     let resizeTimeout = null;
-
     window.addEventListener("resize", () => {
         resizeInProgress = true;
         clearTimeout(resizeTimeout);
@@ -193,6 +215,5 @@
         }, 500);
     });
 
-    // Initial run
     runTranslation();
 })();

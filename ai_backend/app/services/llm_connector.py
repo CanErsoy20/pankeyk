@@ -1,55 +1,20 @@
 import requests
 import json
 import logging
+import re
 from app.config import Config
-from app.services.mock_responses import get_mock_translation
 
 logger = logging.getLogger(__name__)
 
-MOCK_AI = True
-
-def translate_ui_elements(elements_list, target_language="it", page_url=None):
-    """
-    Takes a list of UI elements (dicts with id, text, context) and returns 
-    the list with a new 'translated_text' field added.
-    """
-
-    if MOCK_AI:
-            return get_mock_translation(
-                elements_list,
-                target_language,
-                page_url=page_url
-            )
+def translate_ui_elements(elements_list, target_language="it", page_url=None, abort_check_func=None):
     
-    gui_translation_schema = {
-        "name": "gui_translation",
-        "strict": True,
-        "schema": {
-            "type": "object",
-            "properties": {
-                "elements": {
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "id": { "type": "string" },
-                            "translated_text": { "type": "string" }
-                        },
-                        "required": ["id", "translated_text"],
-                        "additionalProperties": False
-                    }
-                }
-            },
-            "required": ["elements"],
-            "additionalProperties": False
-        }
-    }
+    #Language Mapping (for better representation in LLM prompt)
+    lang_map = { "it": "Italian", "es": "Spanish", "fr": "French", "de": "German", "ja": "Japanese" }
+    full_lang_name = lang_map.get(target_language, target_language)
 
-
-    # 1. Construct the Strict System Prompt
-    # We explicitly tell the AI to look at "context" but only return IDs and Translations.
+    #LLM Prompt
     system_instruction = (
-        f"You are a professional UI translator. Translate the 'text' fields into {target_language}. "
+        f"You are a professional UI translator. Translate the 'text' fields into {full_lang_name}. "
         "Use the 'context' field to choose the most appropriate translation (e.g., for a 'button', use an imperative verb). "
         "CRITICAL INSTRUCTIONS: \n"
         "1. Return ONLY a valid JSON list of objects. \n"
@@ -58,8 +23,6 @@ def translate_ui_elements(elements_list, target_language="it", page_url=None):
         "4. Example Output: [{\"id\": \"btn_01\", \"translated_text\": \"Accedi\"}]"
     )
 
-    # 2. Prepare the Payload
-    # We dump the Python list of dicts into a JSON string to send to the AI
     user_content_json = json.dumps(elements_list)
 
     payload = {
@@ -68,78 +31,85 @@ def translate_ui_elements(elements_list, target_language="it", page_url=None):
             {"role": "system", "content": system_instruction},
             {"role": "user", "content": user_content_json}
         ],
-        "response_format": {
-            "type": "json_schema",
-            "json_schema": gui_translation_schema
-        },
         "temperature": 0.1,
-        "stream": False
+        "stream": True 
     }
 
     try:
-        # 3. Send Request to LM Studio
-        response = requests.post(
+        with requests.post(
             Config.AI_BACKEND_URL, 
             headers={"Content-Type": "application/json"}, 
             data=json.dumps(payload),
-            timeout=None # Give it time for larger batches
-        )
-        response.raise_for_status()
-        
-        # 4. Extract the AI's Raw Text Response
-        ai_response_text = response.json()['choices'][0]['message']['content']
-        
-        # Clean up potential markdown formatting (common issue with Llama-3)
-        # If AI returns ```json [ ... ] ```, we remove the triple backticks
-        if ai_response_text.startswith("```"):
-            ai_response_text = ai_response_text.strip("`").replace("json", "").strip()
-        
-        parsed_response = json.loads(ai_response_text)
-        
-        # Extract the list of translated items
-        translations_list = parsed_response.get('elements', [])
+            stream=True, 
+            timeout=None 
+        ) as response:
+            response.raise_for_status()
+            
+            collected_text = ""
+            
+            #Stream Collection
+            for line in response.iter_lines():
+                if abort_check_func and abort_check_func():
+                    logger.info("Abort signal detected. Closing connection to LLM.")
+                    return None 
 
-        # 7. Merge Logic (Reconcile IDs)
-        # Create a map: { "btn_01": "Accedi", ... }
-        lookup_map = {item['id']: item['translated_text'] for item in translations_list}
+                if line:
+                    decoded_line = line.decode('utf-8').strip()
+                    if decoded_line.startswith("data: "):
+                        json_str = decoded_line[6:] 
+                        if json_str == "[DONE]": break
+                        try:
+                            chunk_json = json.loads(json_str)
+                            delta = chunk_json['choices'][0]['delta'].get('content', '')
+                            collected_text += delta
+                        except: pass
+            
+            #ROBUST PARSING
+            ai_response_text = collected_text.strip()
+            
+            #Clean Markdown wrappers if present
+            if "```" in ai_response_text:
+                ai_response_text = ai_response_text.replace("```json", "").replace("```", "")
 
-        final_output = []
-        for item in elements_list:
-            new_item = item.copy()
-            # If translation exists, use it; otherwise fallback to original
-            new_item['translated_text'] = lookup_map.get(item['id'], item['text'])
-            final_output.append(new_item)
+            translations_map_list = []
+            
+            # PLAN A: Try Standard JSON Load
+            try:
+                translations_map_list = json.loads(ai_response_text)
+                if isinstance(translations_map_list, dict): 
+                     #Handle case where LLM returns a single object instead of a list
+                     translations_map_list = [translations_map_list]
+            except json.JSONDecodeError:
+                pass #Proceed to Plan B
 
-        return final_output
+            # PLAN B: Regex Scavenger (Bracket Independent)
+            if not translations_map_list:
+                logger.warning("Standard JSON parse failed. Running Regex Scavenger...")
+                
+                #This Regex hunts for {"id": "...", "translated_text": "..."} (ignores everything else)
+                pattern = r'\{\s*"id":\s*"[^"]+",\s*"translated_text":\s*"(?:[^"\\]|\\.)*"\s*\}'
+                
+                matches = re.findall(pattern, ai_response_text)
+                for match in matches:
+                    try:
+                        obj = json.loads(match)
+                        translations_map_list.append(obj)
+                    except: continue
 
-    except json.JSONDecodeError as e:
-        logger.error(f"JSON Parsing Error: {e}. Raw response: {ai_response_text}")
-        return None
+            if not translations_map_list:
+                logger.error(f"FATAL: Could not salvage any JSON from response. Length: {len(ai_response_text)}")
+                return None
+
+            lookup_map = {item['id']: item['translated_text'] for item in translations_map_list if 'id' in item}
+            final_output = []
+            
+            for item in elements_list:
+                new_item = item.copy()
+                new_item['translated_text'] = lookup_map.get(item['id'], item['text'])
+                final_output.append(new_item)
+
+            return final_output
+
     except Exception as e:
         logger.error(f"AI Connection Error: {e}")
         return None
-        # 5. Parse the JSON Output
-    #     try:
-    #         translations_map_list = json.loads(ai_response_text)
-    #     except json.JSONDecodeError:
-    #         logger.error(f"AI returned invalid JSON: {ai_response_text}")
-    #         return None
-
-    #     # 6. Merge Translations back into Original List
-    #     # We create a dictionary for fast lookup: { "btn_01": "Accedi", "lbl_02": "Nome" }
-    #     lookup_map = {item['id']: item['translated_text'] for item in translations_map_list if 'id' in item}
-
-    #     # We loop through the ORIGINAL list and add the translation found in the map
-    #     final_output = []
-    #     for item in elements_list:
-    #         # Create a copy of the item so we don't modify the original input
-    #         new_item = item.copy()
-    #         # If AI translated it, add it. If AI missed it, keep original text as fallback.
-    #         new_item['translated_text'] = lookup_map.get(item['id'], item['text'])
-    #         final_output.append(new_item)
-
-    #     return final_output
-
-    # except Exception as e:
-    #     logger.error(f"AI Connection Error: {e}")
-    #     return None
