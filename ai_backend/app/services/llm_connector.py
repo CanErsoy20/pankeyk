@@ -11,16 +11,38 @@ def translate_ui_elements(elements_list, target_language="it", page_url=None, ab
     #Language Mapping (for better representation in LLM prompt)
     lang_map = { "it": "Italian", "es": "Spanish", "fr": "French", "de": "German", "ja": "Japanese" }
     full_lang_name = lang_map.get(target_language, target_language)
-
+    gui_translation_schema = {
+        "name": "gui_translation",
+        "strict": True,
+        "schema": {
+            "type": "object",
+            "properties": {
+                "elements": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": { "type": "string" },
+                            "translated_text": { "type": "string" }
+                        },
+                        "required": ["id", "translated_text"],
+                        "additionalProperties": False
+                    }
+                }
+            },
+            "required": ["elements"],
+            "additionalProperties": False
+        }
+    }
     #LLM Prompt
+    # Refined LLM Prompt
     system_instruction = (
-        f"You are a professional UI translator. Translate the 'text' fields into {full_lang_name}. "
-        "Use the 'context' field to choose the most appropriate translation (e.g., for a 'button', use an imperative verb). "
-        "CRITICAL INSTRUCTIONS: \n"
-        "1. Return ONLY a valid JSON list of objects. \n"
-        "2. Each object must have exactly two fields: 'id' (copied from input) and 'translated_text'. \n"
-        "3. Do not include 'context' or original 'text' in the output to save space. \n"
-        "4. Example Output: [{\"id\": \"btn_01\", \"translated_text\": \"Accedi\"}]"
+        f"You are an expert UI localization engine. Translate the provided user interface elements into {full_lang_name}. "
+        "Adhere to the following strict Localization Rules:\n\n"
+        "1. **Conciseness**: UI space is limited. Choose the shortest correct translation (e.g., 'Sign In' -> 'Accedi', NOT 'Effettua l'accesso').\n"
+        "2. **Context Awareness**: If a 'context' or 'type' field is present, use it to determine the grammatical mood (e.g., use Imperative for 'button', Indicative for 'label').\n"
+        "3. **Abbreviations**: Keep ONLY general abbreviations (e.g. 'EN', 'FR', 'IT' for languages) unchanged.\n"
+        "4. **Formatting**: Return ONLY raw JSON complying with the response format given to you. Do not use Markdown code blocks (```). Do not output introductions or explanations.\n"
     )
 
     user_content_json = json.dumps(elements_list)
@@ -31,6 +53,10 @@ def translate_ui_elements(elements_list, target_language="it", page_url=None, ab
             {"role": "system", "content": system_instruction},
             {"role": "user", "content": user_content_json}
         ],
+        "response_format": {
+            "type": "json_schema",
+            "json_schema": gui_translation_schema
+        },
         "temperature": 0.1,
         "stream": True 
     }
@@ -66,50 +92,30 @@ def translate_ui_elements(elements_list, target_language="it", page_url=None, ab
             
             #ROBUST PARSING
             ai_response_text = collected_text.strip()
+
+            if ai_response_text.startswith("```"):
+                ai_response_text = ai_response_text.strip("`").replace("json", "").strip()
             
-            #Clean Markdown wrappers if present
-            if "```" in ai_response_text:
-                ai_response_text = ai_response_text.replace("```json", "").replace("```", "")
+            parsed_response = json.loads(ai_response_text)
 
-            translations_map_list = []
-            
-            # PLAN A: Try Standard JSON Load
-            try:
-                translations_map_list = json.loads(ai_response_text)
-                if isinstance(translations_map_list, dict): 
-                     #Handle case where LLM returns a single object instead of a list
-                     translations_map_list = [translations_map_list]
-            except json.JSONDecodeError:
-                pass #Proceed to Plan B
+            # Extract the list of translated items
+            translations_list = parsed_response.get('elements', [])
 
-            # PLAN B: Regex Scavenger (Bracket Independent)
-            if not translations_map_list:
-                logger.warning("Standard JSON parse failed. Running Regex Scavenger...")
-                
-                #This Regex hunts for {"id": "...", "translated_text": "..."} (ignores everything else)
-                pattern = r'\{\s*"id":\s*"[^"]+",\s*"translated_text":\s*"(?:[^"\\]|\\.)*"\s*\}'
-                
-                matches = re.findall(pattern, ai_response_text)
-                for match in matches:
-                    try:
-                        obj = json.loads(match)
-                        translations_map_list.append(obj)
-                    except: continue
+            # 7. Merge Logic (Reconcile IDs)
+            # Create a map: { "btn_01": "Accedi", ... }
+            lookup_map = {item['id']: item['translated_text'] for item in translations_list}
 
-            if not translations_map_list:
-                logger.error(f"FATAL: Could not salvage any JSON from response. Length: {len(ai_response_text)}")
-                return None
-
-            lookup_map = {item['id']: item['translated_text'] for item in translations_map_list if 'id' in item}
             final_output = []
-            
             for item in elements_list:
                 new_item = item.copy()
+                # If translation exists, use it; otherwise fallback to original
                 new_item['translated_text'] = lookup_map.get(item['id'], item['text'])
                 final_output.append(new_item)
-
             return final_output
 
+    except json.JSONDecodeError as e:
+        logger.error(f"JSON Parsing Error: {e}. Raw response: {ai_response_text}")
+        return None
     except Exception as e:
         logger.error(f"AI Connection Error: {e}")
         return None
