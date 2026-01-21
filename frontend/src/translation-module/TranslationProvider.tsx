@@ -101,7 +101,6 @@ export const TranslationProvider: React.FC<{ children: React.ReactNode }> = ({ c
             target_language: currentLang,
             page_url: window.location.href,
             request_id: Date.now(),
-            request_id: Date.now(),
             elements: missingElements.map(el => ({ id: el.id, text: el.text, context: el.context }))
         };
 
