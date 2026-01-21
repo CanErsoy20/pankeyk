@@ -1,5 +1,7 @@
 import React, {useState} from "react";
 
+// Contact Page gives the information of Physical location and a notification sender
+// Notification sender is a placeholder, only to test button and popup functionality
 const ContactPage = () => {
     const [popupOpen, setPopupOpen] = useState(false);
     return (

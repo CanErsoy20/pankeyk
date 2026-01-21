@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 const HomePage = () => {
+    // The state of popup - Placed to test the functionality
     const [popupOpen, setPopupOpen] = useState(false);
 
     return (
@@ -158,7 +159,7 @@ const HomePage = () => {
 
             </section>
 
-            {/* CUSTOMER CARE CTA */}
+            {/* CUSTOMER CARE */}
             <section
                 style={{
                     background: "#333",

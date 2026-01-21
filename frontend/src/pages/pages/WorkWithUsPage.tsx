@@ -1,5 +1,6 @@
 import React from "react";
 
+// Work With us Page gives information for future employees
 const WorkWithUsPage = () => {
     return (
         <div>

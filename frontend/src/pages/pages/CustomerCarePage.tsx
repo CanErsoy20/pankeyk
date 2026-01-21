@@ -1,9 +1,9 @@
 import React from "react";
 
+// Customer Care Page gives the information on how the company helps to its customers
 const CustomerCarePage = () => {
     return (
         <div>
-            {/* HEADER */}
             <div style={{ padding: "15px 40px", borderBottom: "1px solid #ddd" }}>
                 <strong>Customer Care</strong>
             </div>

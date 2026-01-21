@@ -8,7 +8,7 @@ import CustomerCarePage from "./pages/pages/CustomerCarePage.tsx";
 import ContactPage from "./pages/pages/ContactPage.tsx";
 import WorkWithUsPage from "./pages/pages/WorkWithUsPage.tsx";
 
-// Simple Nav Component for styling
+// Navbar to navigate through pages
 const NavBar = () => {
   const location = useLocation();
   const [contactOpen, setContactOpen] = React.useState(false);
@@ -40,9 +40,7 @@ const NavBar = () => {
 
           <Link to="/" style={linkStyle('/')}>HOME</Link>
           <Link to="/company" style={linkStyle('/company')}>COMPANY</Link>
-          <Link to="/customerCare" style={linkStyle('/customerCare')}>
-            CUSTOMER CARE
-          </Link>
+          <Link to="/customerCare" style={linkStyle('/customerCare')}>CUSTOMER CARE</Link>
 
           {/* CONTACT DROPDOWN */}
           <div

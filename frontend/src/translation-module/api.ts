@@ -1,5 +1,6 @@
 const BACKEND_URL = "http://localhost:5000/translate";
 
+// Sends the original text to backend and waits for the translated JSON
 export async function sendToBackend(payload: any, signal?: AbortSignal) {
     try {
         const response = await fetch(BACKEND_URL, {

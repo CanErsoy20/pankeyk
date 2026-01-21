@@ -17,6 +17,8 @@ export function hashText(text: string): string {
     return Math.abs(hash).toString(16);
 }
 
+// Selects the tags to be translated
+// In case of texts buried in child tags, checks parent tags also
 function getContext(tag: string): string {
     switch (tag) {
         case "button": return "button";
@@ -29,18 +31,19 @@ function getContext(tag: string): string {
     }
 }
 
-// Helper to revert all translated nodes back to English
+// Reverts the page to original language - checks the translated flag to false
 export function restoreDOM() {
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
     let node;
     while ((node = walker.nextNode())) {
         if ((node as any).__pankeykOriginal) {
             node.textContent = (node as any).__pankeykOriginal;
-            (node as any).__pankeykTranslated = false; // Important: Uncheck the flag
+            (node as any).__pankeykTranslated = false;
         }
     }
 }
 
+// Scans the target page's DOM and returns non-translated original text
 export function scanDOM() {
     const results: any[] = [];
     const walker = document.createTreeWalker(
@@ -50,23 +53,25 @@ export function scanDOM() {
 
     let node;
     while ((node = walker.nextNode())) {
-        // 1. If it's already translated, SKIP IT (unless we just restored it)
+        // 1. If it's already translated, skip it
         if ((node as any).__pankeykTranslated) continue;
 
+        // Check the validity of the text (min length and non-null)
         const text = node.textContent?.trim();
         if (!text) continue;
         if (text.length < 2) continue; 
 
+        // Check the validity of the parent element (visibility, non-text content tag names)
         const parent = node.parentElement;
         if (!parent || !isVisible(parent)) continue;
         if (["SCRIPT", "STYLE", "NOSCRIPT", "CODE"].includes(parent.tagName)) continue;
 
-        // 2. SAVE ORIGINAL TEXT (First time seeing this node)
+        // 2. Save the original text (first time encounter)
         if (!(node as any).__pankeykOriginal) {
             (node as any).__pankeykOriginal = text;
         } else {
-            // Safety: If the DOM text differs from original but NOT marked translated, 
-            // it might be a dynamic update (like a counter). Update original.
+            // Not the first encounter
+            // If not marked translated -> Dynamic update
             if (text !== (node as any).__pankeykOriginal) {
                 (node as any).__pankeykOriginal = text;
             }
@@ -76,7 +81,7 @@ export function scanDOM() {
 
         results.push({
             id,
-            text: (node as any).__pankeykOriginal, // Always send original text to AI
+            text: (node as any).__pankeykOriginal,
             context: getContext(parent.tagName.toLowerCase()),
             node
         });

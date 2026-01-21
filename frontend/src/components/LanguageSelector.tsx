@@ -1,11 +1,13 @@
 import React from 'react';
 import { useTranslation } from '../translation-module/TranslationProvider';
 
+// React Component with a dropdown language selection
 const LanguageSelector: React.FC = () => {
     const { targetLanguage, setTargetLanguage, isTranslating } = useTranslation();
 
     return (
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            // Informative label - whether the page is currently translating or not
             {isTranslating && <span style={{color: 'orange'}}>Translating...</span>}
             <select 
                 value={targetLanguage} 

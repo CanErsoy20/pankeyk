@@ -1,5 +1,6 @@
 import React from "react";
 
+// Company Page gives the company information about Values, Mission, Strategy, Plants, and Global presence
 const CompanyPage = () => {
     return (
         <div>
