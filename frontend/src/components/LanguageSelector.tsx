@@ -6,7 +6,11 @@ const LanguageSelector: React.FC = () => {
 
     return (
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            {isTranslating && <span style={{color: 'orange'}}>Translating...</span>}
+            {isTranslating && (
+                <span data-pankeyk-ignore="true" style={{color: 'orange', fontSize: '0.9em'}}>
+                    Translating...
+                </span>
+            )}
             <select 
                 value={targetLanguage} 
                 onChange={(e) => setTargetLanguage(e.target.value)}

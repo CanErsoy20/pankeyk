@@ -26,11 +26,11 @@ export const TranslationProvider: React.FC<{ children: React.ReactNode }> = ({ c
     const observerRef = useRef<MutationObserver | null>(null);
     const lastPayloadJson = useRef<string>("");
     
-    // The "Global" Debounce Timer
     const debounceTimerRef = useRef<any>(null);
-
-    // Track language ref for the Observer
     const targetLanguageRef = useRef<string>("");
+    
+    // NEW: Tracks the active language to prevent re-runs from the [] dependency
+    const activeLangRef = useRef<string | null>(null);
 
     // --- CACHE UTILS ---
     const loadCache = (lang: string) => {
@@ -45,7 +45,7 @@ export const TranslationProvider: React.FC<{ children: React.ReactNode }> = ({ c
 
     // --- DOM MANIPULATION ---
     const applyTranslations = (elements: any[]) => {
-        // 1. Disconnect Observer (Safety)
+        // Disconnect to avoid triggering ourselves
         if (observerRef.current) observerRef.current.disconnect();
 
         let appliedCount = 0;
@@ -58,7 +58,7 @@ export const TranslationProvider: React.FC<{ children: React.ReactNode }> = ({ c
             }
         });
 
-        // 2. Reconnect Observer (Listen for FUTURE changes)
+        // Reconnect
         if (observerRef.current && targetLanguageRef.current) {
             setupObserver();
         }
@@ -66,39 +66,36 @@ export const TranslationProvider: React.FC<{ children: React.ReactNode }> = ({ c
         return appliedCount;
     };
 
-    // --- THE CORE TRANSLATION RUNNER ---
+    // --- CORE RUNNER ---
     const executeTranslation = async () => {
         const currentLang = targetLanguageRef.current;
         if (!currentLang) return;
 
-        // 1. Kill any pending request immediately (Frontend side)
+        // 1. Kill pending request
         if (abortControllerRef.current) {
             abortControllerRef.current.abort();
         }
         abortControllerRef.current = new AbortController();
         const currentSignal = abortControllerRef.current.signal;
 
-        // 2. Scan & Apply Cache
+        // 2. Scan & Apply
         const elements = scanDOM();
         applyTranslations(elements);
 
-        // 3. Identify Missing
         const missingElements = elements.filter(el => !cacheRef.current[el.id]);
         if (missingElements.length === 0) {
             setIsTranslating(false);
             return;
         }
 
-        // 4. PREPARE PAYLOAD WITH REQUEST ID
+        // 3. Payload
         const candidatePayload = {
             target_language: currentLang,
             page_url: window.location.href,
-            request_id: Date.now(), // <--- THIS FIXES THE LLM QUEUE
+            request_id: Date.now(),
             elements: missingElements.map(el => ({ id: el.id, text: el.text, context: el.context }))
         };
 
-        // 5. Fingerprint Check (Prevent exact duplicates)
-        // Note: We exclude request_id from the fingerprint check since it always changes
         const fingerprintPayload = { ...candidatePayload, request_id: 0 };
         const payloadStr = JSON.stringify(fingerprintPayload);
         
@@ -110,7 +107,6 @@ export const TranslationProvider: React.FC<{ children: React.ReactNode }> = ({ c
 
         setIsTranslating(true);
 
-        // 6. API Call
         try {
             const result = await sendToBackend(candidatePayload, currentSignal);
             
@@ -122,12 +118,11 @@ export const TranslationProvider: React.FC<{ children: React.ReactNode }> = ({ c
                 });
                 saveCache(currentLang);
                 
-                // Final Apply
                 const freshScan = scanDOM();
                 applyTranslations(freshScan);
             }
         } catch (e) {
-            // Ignore abort errors
+            // Ignore aborts
         } finally {
             if (!currentSignal.aborted) {
                 setIsTranslating(false);
@@ -135,22 +130,38 @@ export const TranslationProvider: React.FC<{ children: React.ReactNode }> = ({ c
         }
     };
 
-    // --- DEBOUNCED TRIGGER ---
     const triggerTranslation = () => {
         if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
-        
         debounceTimerRef.current = setTimeout(() => {
             executeTranslation();
         }, 600); 
     };
 
-    // --- OBSERVER SETUP ---
     const setupObserver = () => {
         if (observerRef.current) observerRef.current.disconnect();
 
         observerRef.current = new MutationObserver((mutations) => {
-            // Filter out our own changes
-            const relevant = mutations.some(m => !(m.target as any).__pankeykTranslated);
+            const relevant = mutations.some(m => {
+                // Ignore internal flags
+                if ((m.target as any).__pankeykTranslated) return false;
+                
+                // Ignore ignored elements (LanguageSelector)
+                if (m.target instanceof HTMLElement && m.target.closest('[data-pankeyk-ignore]')) return false;
+
+                // Check added nodes
+                if (m.type === 'childList') {
+                    for (let i = 0; i < m.addedNodes.length; i++) {
+                        const node = m.addedNodes[i];
+                        if (node instanceof HTMLElement) {
+                            if (node.hasAttribute('data-pankeyk-ignore') || node.closest('[data-pankeyk-ignore]')) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+                return true;
+            });
+
             if (relevant) {
                 triggerTranslation();
             }
@@ -163,8 +174,17 @@ export const TranslationProvider: React.FC<{ children: React.ReactNode }> = ({ c
         });
     };
 
-    // --- MAIN EFFECT: LANGUAGE SWITCH ---
+    // --- MAIN EFFECT ---
     useEffect(() => {
+        // --- GATEKEEPER START ---
+        // This prevents the [] dependency from causing infinite re-runs/aborts on every render.
+        // We only proceed if the language ACTUALLY changed.
+        if (activeLangRef.current === targetLanguage) {
+            return;
+        }
+        activeLangRef.current = targetLanguage;
+        // --- GATEKEEPER END ---
+
         targetLanguageRef.current = targetLanguage;
         
         if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
@@ -182,10 +202,11 @@ export const TranslationProvider: React.FC<{ children: React.ReactNode }> = ({ c
         loadCache(targetLanguage);
         setupObserver();
         executeTranslation();
+
         return () => {
             if (observerRef.current) observerRef.current.disconnect();
         };
-    }, [[],targetLanguage]);
+    }, [[], targetLanguage]); // Keeping this dependency array as requested
 
     return (
         <TranslationContext.Provider value={{ targetLanguage, setTargetLanguage, isTranslating }}>

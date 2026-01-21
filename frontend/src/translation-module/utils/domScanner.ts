@@ -29,14 +29,13 @@ function getContext(tag: string): string {
     }
 }
 
-// Helper to revert all translated nodes back to English
 export function restoreDOM() {
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
     let node;
     while ((node = walker.nextNode())) {
         if ((node as any).__pankeykOriginal) {
             node.textContent = (node as any).__pankeykOriginal;
-            (node as any).__pankeykTranslated = false; // Important: Uncheck the flag
+            (node as any).__pankeykTranslated = false; 
         }
     }
 }
@@ -50,7 +49,6 @@ export function scanDOM() {
 
     let node;
     while ((node = walker.nextNode())) {
-        // 1. If it's already translated, SKIP IT (unless we just restored it)
         if ((node as any).__pankeykTranslated) continue;
 
         const text = node.textContent?.trim();
@@ -59,14 +57,15 @@ export function scanDOM() {
 
         const parent = node.parentElement;
         if (!parent || !isVisible(parent)) continue;
+        
+        // SKIP IGNORED ELEMENTS
+        if (parent.closest('[data-pankeyk-ignore]')) continue;
+
         if (["SCRIPT", "STYLE", "NOSCRIPT", "CODE"].includes(parent.tagName)) continue;
 
-        // 2. SAVE ORIGINAL TEXT (First time seeing this node)
         if (!(node as any).__pankeykOriginal) {
             (node as any).__pankeykOriginal = text;
         } else {
-            // Safety: If the DOM text differs from original but NOT marked translated, 
-            // it might be a dynamic update (like a counter). Update original.
             if (text !== (node as any).__pankeykOriginal) {
                 (node as any).__pankeykOriginal = text;
             }
@@ -76,7 +75,7 @@ export function scanDOM() {
 
         results.push({
             id,
-            text: (node as any).__pankeykOriginal, // Always send original text to AI
+            text: (node as any).__pankeykOriginal,
             context: getContext(parent.tagName.toLowerCase()),
             node
         });
