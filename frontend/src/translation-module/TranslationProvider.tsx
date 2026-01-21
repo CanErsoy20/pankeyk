@@ -16,23 +16,28 @@ export const useTranslation = () => {
     return context;
 };
 
+// React Component that enables its children to be translated
 export const TranslationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [targetLanguage, setTargetLanguage] = useState<string>(""); 
+    // States
+    const [targetLanguage, setTargetLanguage] = useState<string>("");
     const [isTranslating, setIsTranslating] = useState(false);
     
-    // --- REFS ---
+    // References
     const abortControllerRef = useRef<AbortController | null>(null);
     const cacheRef = useRef<Record<string, string>>({});
     const observerRef = useRef<MutationObserver | null>(null);
     const lastPayloadJson = useRef<string>("");
     
+
     const debounceTimerRef = useRef<any>(null);
+
+    // Track target language for the Observer
     const targetLanguageRef = useRef<string>("");
     
     // NEW: Tracks the active language to prevent re-runs from the [] dependency
     const activeLangRef = useRef<string | null>(null);
 
-    // --- CACHE UTILS ---
+    // Load cache by language (Same page can be cached in different languages)
     const loadCache = (lang: string) => {
         const key = `pankeyk_cache_${lang}`;
         const saved = localStorage.getItem(key);
@@ -43,11 +48,13 @@ export const TranslationProvider: React.FC<{ children: React.ReactNode }> = ({ c
         localStorage.setItem(`pankeyk_cache_${lang}`, JSON.stringify(cacheRef.current));
     };
 
-    // --- DOM MANIPULATION ---
+    // Apply the translation to the Page
     const applyTranslations = (elements: any[]) => {
+        // 1. Disconnect Observer (Observer will detect mutations during our translation)
         // Disconnect to avoid triggering ourselves
         if (observerRef.current) observerRef.current.disconnect();
 
+        // 2. Change the original text to the translated element by element
         let appliedCount = 0;
         elements.forEach(el => {
             const translatedText = cacheRef.current[el.id];
@@ -58,6 +65,7 @@ export const TranslationProvider: React.FC<{ children: React.ReactNode }> = ({ c
             }
         });
 
+        // 3. Reconnect Observer (Changes are now reliable and not happening because of us)
         // Reconnect
         if (observerRef.current && targetLanguageRef.current) {
             setupObserver();
@@ -92,6 +100,7 @@ export const TranslationProvider: React.FC<{ children: React.ReactNode }> = ({ c
         const candidatePayload = {
             target_language: currentLang,
             page_url: window.location.href,
+            request_id: Date.now(),
             request_id: Date.now(),
             elements: missingElements.map(el => ({ id: el.id, text: el.text, context: el.context }))
         };
@@ -194,11 +203,13 @@ export const TranslationProvider: React.FC<{ children: React.ReactNode }> = ({ c
         if (observerRef.current) observerRef.current.disconnect();
         restoreDOM();
 
+        // Nothing to be translated
         if (!targetLanguage) {
             setIsTranslating(false);
             return; 
         }
 
+        // Start the translation process
         loadCache(targetLanguage);
         setupObserver();
         executeTranslation();

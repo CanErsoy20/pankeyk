@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from '../translation-module/TranslationProvider';
 
+// React Component with a dropdown language selection
 const LanguageSelector: React.FC = () => {
     const { targetLanguage, setTargetLanguage, isTranslating } = useTranslation();
 
