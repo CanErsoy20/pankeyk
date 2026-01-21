@@ -67,6 +67,8 @@ def translate_ui_elements(elements_list, target_language="it", page_url=None, ab
             #ROBUST PARSING
             ai_response_text = collected_text.strip()
             
+            print(f"\n[DEBUG] LLM Response:\n{ai_response_text}\n", flush=True)
+
             #Clean Markdown wrappers if present
             if "```" in ai_response_text:
                 ai_response_text = ai_response_text.replace("```json", "").replace("```", "")
