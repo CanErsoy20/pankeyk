@@ -182,11 +182,10 @@ export const TranslationProvider: React.FC<{ children: React.ReactNode }> = ({ c
         loadCache(targetLanguage);
         setupObserver();
         executeTranslation();
-
         return () => {
             if (observerRef.current) observerRef.current.disconnect();
         };
-    }, [targetLanguage]);
+    }, [[],targetLanguage]);
 
     return (
         <TranslationContext.Provider value={{ targetLanguage, setTargetLanguage, isTranslating }}>
