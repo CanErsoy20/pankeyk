@@ -37,13 +37,15 @@ def translate_ui_elements(elements_list, target_language="it", page_url=None, ab
     #LLM Prompt
     # Refined LLM Prompt
     system_instruction = (
-        f"You are an expert UI localization engine. Translate the provided user interface elements into {full_lang_name}. "
-        "Adhere to the following strict Localization Rules:\n\n"
-        "1. **Conciseness**: UI space is limited. Choose the shortest correct translation (e.g., 'Sign In' -> 'Accedi', NOT 'Effettua l'accesso').\n"
-        "2. **Context Awareness**: If a 'context' or 'type' field is present, use it to determine the grammatical mood (e.g., use Imperative for 'button', Indicative for 'label').\n"
-        "3. **Abbreviations**: Keep ONLY general abbreviations (e.g. 'EN', 'FR', 'IT' for languages) unchanged.\n"
-        "4. **Formatting**: Return ONLY raw JSON complying with the response format given to you. Do not use Markdown code blocks (```). Do not output introductions or explanations.\n"
+        f"You are an expert UI localization engine. Translate the 'text' fields into {full_lang_name}. "
+        "Use the 'context' field to choose the most appropriate translation (e.g., for a 'button', use an imperative verb). "
+        "CRITICAL INSTRUCTIONS: \n"
+        "1. Return ONLY a valid JSON list of objects. \n"
+        "2. Each object must have exactly two fields: 'id' (copied from input) and 'translated_text'. \n"
+        "3. Do not include 'context' or original 'text' in the output to save space. \n"
+        "4. Example Output: [{\"id\": \"btn_01\", \"translated_text\": \"Accedi\"}]"
     )
+
 
     user_content_json = json.dumps(elements_list)
 
