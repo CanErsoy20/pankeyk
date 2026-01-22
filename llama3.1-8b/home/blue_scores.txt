@@ -1,0 +1,3 @@
+Total Strings Evaluated: 29
+Average BLEU Score:      0.3094
+Exact Match Accuracy:    44.83%
