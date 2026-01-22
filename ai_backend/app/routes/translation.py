@@ -1,48 +1,52 @@
 from flask import Blueprint, request, jsonify
 from app.services.llm_connector import translate_ui_elements
 import logging
+import threading
 
 translation_bp = Blueprint('translation', __name__)
 logger = logging.getLogger(__name__)
 
+#Dictionary: { "https://arol.com": 17150001, "https://arol.com/contact": 17150002 }
+LATEST_REQUESTS = {}
+REQUESTS_LOCK = threading.Lock()
+
 @translation_bp.route('/translate', methods=['POST'])
 def translate_endpoint():
-    """
-    Receives a complex JSON payload with IDs and Contexts.
-    Expected format:
-    {
-      "target_language": "Italian",
-      "elements": [
-         { "id": "btn_01", "text": "Sign in", "context": "button" },
-         ...
-      ]
-    }
-    """
     data = request.get_json()
-
-    # 1. Validation
+    
     if not data or 'elements' not in data:
-        return jsonify({"error": "Missing 'elements' list in request"}), 400
-    
+        return jsonify({"error": "Missing elements"}), 400
+
     elements = data['elements']
-    target_lang = data.get('target_language', 'Italian')
+    target_lang = data.get('target_language', 'it')
+    current_request_id = data.get('request_id', 0)
+    page_url = data.get('page_url', 'unknown_page')
     
-    # Check if elements is actually a list
-    if not isinstance(elements, list):
-        return jsonify({"error": "'elements' must be a list"}), 400
+    #Update the "Primary" for THIS SPECIFIC URL
+    with REQUESTS_LOCK:
+        LATEST_REQUESTS[page_url] = current_request_id
+    
+    logger.info(f"Start: {page_url} (ID: {current_request_id}) -> {target_lang}")
 
-    logger.info(f"Received {len(elements)} elements to translate into {target_lang}")
+    def abort_check():
+        with REQUESTS_LOCK:
+            latest_id = LATEST_REQUESTS.get(page_url, 0)
+        #Only abort if a newer request came from the SAME page
+        if latest_id > current_request_id:
+            return True
+        return False
 
-    # 2. Call the Service (The Brain)
-    # We pass the whole list of objects (dictionaries) to the service
-    translated_elements = translate_ui_elements(elements, target_lang)
+    result = translate_ui_elements(
+        elements, 
+        target_lang, 
+        page_url=page_url, 
+        abort_check_func=abort_check
+    )
 
-    # 3. Return the Result
-    # We return the full structure back to the frontend
-    if translated_elements:
-        return jsonify({
-            "target_language": target_lang,
-            "elements": translated_elements
-        })
-    else:
-        return jsonify({"error": "Translation failed internally"}), 500
+    if result is None:
+        return jsonify({"status": "aborted_or_failed"}), 409
+
+    return jsonify({
+        "target_language": target_lang,
+        "elements": result
+    })

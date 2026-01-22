@@ -1,0 +1,2 @@
+Total Evaluated Items: 31
+Average Semantic Similarity: 0.7763
